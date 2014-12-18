@@ -134,7 +134,7 @@ module.exports = yeoman.generators.Base.extend({
       if (this.includeSass) {
         css += '.scss';
       } else {
-        css += '.css';
+        css += '.less';
       }
 
       this.copy(css, 'app/styles/' + css);

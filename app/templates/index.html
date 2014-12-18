@@ -1,5 +1,8 @@
 <!doctype html>
-<html<% if (includeModernizr) { %> class="no-js"<% } %> lang="">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
     <meta name="description" content="">
@@ -67,7 +70,8 @@
       <p>You now have</p>
       <ul>
         <li>HTML5 Boilerplate</li><% if (includeSass) { %>
-        <li>Sass</li><% } %><% if (includeModernizr) { %>
+        <li>Sass</li><% } else { %>
+        <li>Less</li><% } if (includeModernizr) { %>
         <li>Modernizr</li><% } %>
       </ul>
     </div>

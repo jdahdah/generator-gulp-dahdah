@@ -1,5 +1,6 @@
 node_modules
 test/gulp-file
 test/sass
+test/less
 test/slug
 temp/

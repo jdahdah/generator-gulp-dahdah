@@ -6,15 +6,19 @@ var $ = require('gulp-load-plugins')();
 
 gulp.task('styles', function () {<% if (includeSass) { %>
   return gulp.src('app/styles/main.scss')
+    .pipe($.sourcemaps.init())
     .pipe($.rubySass({
       style: 'expanded',
       precision: 10
     }))
     .on('error', function (err) { console.log(err.message); })<% } else { %>
   return gulp.src('app/styles/main.css')<% } %>
+    .pipe($.sourcemaps.init())
+    .pipe($.less())
     .pipe($.postcss([
-      require('autoprefixer-core')({browsers: ['last 1 version']})
+      require('autoprefixer-core')({browsers: ['last 3 versions']})
     ]))
+    .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('.tmp/styles'));
 });
 
@@ -97,6 +101,10 @@ gulp.task('wiredep', function () {
   gulp.src('app/styles/*.scss')
     .pipe(wiredep())
     .pipe(gulp.dest('app/styles'));
+<% } else { %>
+  gulp.src('app/styles/*.less')
+    .pipe(wiredep())
+    .pipe(gulp.dest('app/styles'));
 <% } %>
   gulp.src('app/*.html')
     .pipe(wiredep(<% if (includeSass && includeBootstrap) { %>{exclude: ['bootstrap-sass-official']}<% } %>))
@@ -114,7 +122,7 @@ gulp.task('watch', ['connect'], function () {
     'app/images/**/*'
   ]).on('change', $.livereload.changed);
 
-  gulp.watch('app/styles/**/*.<%= includeSass ? 'scss' : 'css' %>', ['styles']);
+  gulp.watch('app/styles/**/*.<%= includeSass ? 'scss' : 'less' %>', ['styles']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
