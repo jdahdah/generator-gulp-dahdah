@@ -12,7 +12,7 @@ gulp.task('styles', function () {<% if (includeSass) { %>
       precision: 10
     }))
     .on('error', function (err) { console.log(err.message); })<% } else { %>
-  return gulp.src('app/styles/main.css')<% } %>
+  return gulp.src('app/styles/main.less')<% } %>
     .pipe($.sourcemaps.init())
     .pipe($.less())
     .pipe($.postcss([
