@@ -50,11 +50,11 @@ module.exports = yeoman.generators.Base.extend({
       choices: [{
         name: 'Sass',
         value: 'includeSass',
-        checked: true
+        checked: false
       }, {
         name: 'Bootstrap',
         value: 'includeBootstrap',
-        checked: true
+        checked: false
       }, {
         name: 'Modernizr',
         value: 'includeModernizr',
