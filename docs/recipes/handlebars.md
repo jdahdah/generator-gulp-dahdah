@@ -13,8 +13,8 @@ Install some gulp plugins:
 $ npm install --save-dev gulp-handlebars gulp-define-module gulp-declare
 ```
 
-> * [gulp-handlebars](https://github.com/lazd/gulp-handlebars) precompiles raw `.hbs` templates into JavaScript
-> * [gulp-define-module](https://github.com/wbyoung/gulp-define-module) and [gulp-declare](https://github.com/lazd/gulp-declare) are used together to package up the compiled JavaScript template into a namespaced module
+* [gulp-handlebars](https://github.com/lazd/gulp-handlebars) precompiles raw `.hbs` templates into JavaScript
+* [gulp-define-module](https://github.com/wbyoung/gulp-define-module) and [gulp-declare](https://github.com/lazd/gulp-declare) are used together to package up the compiled JavaScript template into a namespaced module
 
 Install Handlebars as a bower component:
 
@@ -22,60 +22,57 @@ Install Handlebars as a bower component:
 $ bower install --save handlebars
 ```
 
-> * You need this so you can include the Handlebars runtime in your page – even compiled templates depend on this. (You won't need to include the entire Handlebars library though.)
-> * It's a good idea to verify you've installed the same version of Handlebars as the one used by internally by gulp-handlebars, to guarantee compatibility between the runtime and your compiled templates. Look in `node_modules/gulp-handlebars/package.json` under `"dependencies"` and check the handlebars version – if necessary, you can ask bower to install that specific version, e.g. `bower install --save handlebars#^1.3.0`.
+* You need this so you can include the Handlebars runtime in your page – even compiled templates depend on this. (You won't need to include the entire Handlebars library though.)
+* It's a good idea to verify you've installed the same version of Handlebars as the one used by internally by gulp-handlebars, to guarantee compatibility between the runtime and your compiled templates. Look in `node_modules/gulp-handlebars/package.json` under `"dependencies"` and check the handlebars version – if necessary, you can ask bower to install that specific version, e.g. `bower install --save handlebars#^1.3.0`.
 
 ### 2. Create a `templates` task
 
 ```js
 gulp.task('templates', function () {
-    return gulp.src('app/templates/**/*.hbs')
-        .pipe($.handlebars())
-        .pipe($.defineModule('plain'))
-        .pipe($.declare({
-            namespace: 'MyApp.templates' // change this to whatever you want
-        }))
-        .pipe(gulp.dest('.tmp/templates'));
+  return gulp.src('app/templates/**/*.hbs')
+    .pipe($.handlebars())
+    .pipe($.defineModule('plain'))
+    .pipe($.declare({
+      namespace: 'MyApp.templates' // change this to whatever you want
+    }))
+    .pipe(gulp.dest('.tmp/templates'));
 });
 ```
 
-> This compiles `.hbs` files into `.js` files in the `.tmp` directory.
+This compiles `.hbs` files into `.js` files in the `.tmp` directory.
 
 ### 3. Add `templates` as a dependency of both `html` and `serve`
 
 ```js
-gulp.task('serve', ['connect', 'styles', 'templates'], function () {
-    ...
+gulp.task('html', ['styles', 'templates'], function () {
+  ...
 ```
 
 ```js
-gulp.task('html', ['styles', 'templates'], function () {
+gulp.task('serve', ['styles', 'templates', 'fonts'], function () {
     ...
 ```
 
-### 4. Configure watch
+### 4. Edit your `serve` task
 
-Edit your `watch` task so that (a) editing an `.hbs` file triggers the `templates` task, and (b) the LiveReload server is triggered whenever a `.js` file is generated in `.tmp/templates`:
+Edit your `serve` task so that (a) editing an `.hbs` file triggers the `templates` task, and (b) the browser is reloaded whenever a `.js` file is generated in `.tmp/templates`:
 
 ```diff
- gulp.task('watch', ['connect', 'serve'], function () {
-     gulp.watch([
-         'app/*.html',
-         '.tmp/styles/**/*.css',
-+        '.tmp/templates/**/*.js',
-         'app/scripts/**/*.js',
-         'app/images/**/*'
-     ]).on('change', function (file) {
-         server.changed(file.path);
-     });
+ gulp.task('serve', ['styles', 'templates', 'fonts'], function () {
+   ...
+   gulp.watch([
+     'app/*.html',
+     '.tmp/styles/**/*.css',
++    '.tmp/templates/**/*.js',
+     'app/scripts/**/*.js',
+     'app/images/**/*'
+   ]).on('change', reload);
 
-     gulp.watch('app/styles/**/*.scss', ['styles']);
-+    gulp.watch('app/templates/**/*.hbs', ['templates']);
-     gulp.watch('app/images/**/*', ['images']);
-     gulp.watch('bower.json', ['wiredep']);
+   gulp.watch('app/styles/**/*.scss', ['styles', reload]);
++  gulp.watch('app/templates/**/*.hbs', ['templates', reload]);
+   gulp.watch('bower.json', ['wiredep', 'fonts', reload]);
  });
 ```
-
 
 ## Usage
 
@@ -95,4 +92,4 @@ You would then render the template like this:
 var html = MyApp.templates.foo();
 ```
 
-> The `MyApp.templates` namespace can be anything you want – change it in the `templates` task.
+The `MyApp.templates` namespace can be anything you want – change it in the `templates` task.

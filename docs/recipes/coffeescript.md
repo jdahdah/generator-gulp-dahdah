@@ -17,44 +17,42 @@ This compiles `.coffee` files into the `.tmp` directory.
 
 ```js
 gulp.task('scripts', function () {
-    return gulp.src('app/scripts/**/*.coffee')
-        .pipe($.coffee())
-        .pipe(gulp.dest('.tmp/scripts'));
+  return gulp.src('app/scripts/**/*.coffee')
+    .pipe($.coffee())
+    .pipe(gulp.dest('.tmp/scripts'));
 });
 ```
 
 ### 3. Add `scripts` as a dependency of `html` and `serve`
 
 ```js
-gulp.task('serve', ['connect', 'styles', 'scripts'], function () {
-    ...
-```
-
-```js
 gulp.task('html', ['styles', 'scripts'], function () {
     ...
 ```
 
-### 4. Edit your `watch` task
+```js
+gulp.task('serve', ['styles', 'scripts', 'fonts'], function () {
+  ...
+```
 
-These changes ensure that (1) generated `.js` files trigger a live reload, and (2) edits to `.coffee` files trigger recompilation.
+### 4. Edit your `serve` task
+
+These changes ensure that (1) generated `.js` files trigger a browser reload, and (2) edits to `.coffee` files trigger recompilation.
 
 ```diff
- gulp.task('watch', ['connect', 'serve'], function () {
-     gulp.watch([
-         'app/*.html',
-         '.tmp/styles/**/*.css',
--        'app/scripts/**/*.js',
-+        '{.tmp,app}/scripts/**/*.js',
-         'app/images/**/*'
-     ]).on('change', function (file) {
-         server.changed(file.path);
-     });
+ gulp.task('serve', ['styles', 'fonts'], function () {
+   ...
+   gulp.watch([
+     'app/*.html',
+     '.tmp/styles/**/*.css',
+     'app/scripts/**/*.js',
++    '.tmp/scripts/**/*.js',
+     'app/images/**/*'
+   ]).on('change', reload);
 
-     gulp.watch('app/styles/**/*.scss', ['styles']);
-+    gulp.watch('app/scripts/**/*.coffee', ['scripts']);
-     gulp.watch('app/images/**/*', ['images']);
-     gulp.watch('bower.json', ['wiredep']);
+   gulp.watch('app/styles/**/*.scss', ['styles', reload]);
++  gulp.watch('app/scripts/**/*.coffee', ['scripts', reload]);
+   gulp.watch('bower.json', ['wiredep', 'fonts', reload]);
  });
 ```
 

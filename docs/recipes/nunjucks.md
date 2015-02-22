@@ -2,28 +2,36 @@
 
 This recipe shows how to set up Nunjucks to compile your templates, including LiveReload integration.
 
+We assume your directory structure will look something like this:
+
+```
+webapp
+└── app
+    ├── about.html
+    ├── contact.html
+    ├── index.html
+    ├── includes
+    │   ├── footer.html
+    │   └── header.html
+    └── layouts
+        └── default.html
+```
+
+If you had something different in mind, modify paths accordingly.
 
 ## Steps
 
 ### 1. Install dependencies
 
-Install [gulp-nunjucks-render](https://github.com/carlosl/gulp-nunjucks-render) to render Nunjucks template language to HTML
+Install [gulp-nunjucks-render](https://github.com/carlosl/gulp-nunjucks-render) to render Nunjucks template language to HTML:
 
 ```sh
 $ npm install --save-dev gulp-nunjucks-render
 ```
 
-### 2. Setup directory structure
+### 2. Modify `app/index.html` to create as `app/layouts/default.html` layouts template
 
-Create a ``app/templates/layouts`` directory structure
-
-```sh
-$ mkdir -p app/templates/layouts
-```
-
-### 3. Modify `app/index.html` to create as `app/templates/layouts/default.html` layouts template
-
-Modify ``app/index.html``
+Modify `app/index.html`:
 
 ```diff
 -    <div class="hero-unit">
@@ -38,15 +46,15 @@ Modify ``app/index.html``
 +    {% block content %}{% endblock %}
 ```
 
-Move and rename template ``app/templates/layouts/default.html``
+Make it the default layout template:
 
 ```sh
-$ mv app/index.html app/templates/layouts/default.html
+$ mv app/index.html app/layouts/default.html
 ```
 
-### 4. Create new Nunjucks `app/templates/index.html` page to extend from `app/templates/layouts/default.html`
+### 3. Create new Nunjucks `app/index.html` page to extend from `app/layouts/default.html`
 
-New `app/templates/index.html`
+Create `app/index.html`:
 
 ```diff
 +{% extends "layouts/default.html" %}
@@ -65,37 +73,37 @@ New `app/templates/index.html`
 +
 ```
 
-### 5. Create a `templates` task
+### 4. Create a `views` task
 
 ```js
-gulp.task('templates', function () {
-  $.nunjucksRender.nunjucks.configure(['app/templates/']);
+gulp.task('views', function () {
+  $.nunjucksRender.nunjucks.configure(['app/']);
 
-  return gulp.src(['app/templates/**/*.html', '!app/templates/layouts/*.html'])
+  return gulp.src('app/*.html')
     .pipe($.nunjucksRender())
     .pipe(gulp.dest('.tmp'))
 });
 ```
 
-> This compiles `app/templates/.html` files into static `.html` files in the `.tmp` directory.
+This compiles `app/*.html` files into static `.html` files in the `.tmp` directory.
 
-### 6. Add `templates` as a dependency of both `html` and `connect`
+### 5. Add `views` as a dependency of both `html` and `serve`
 
 ```js
-gulp.task('connect', ['styles', 'templates'], function () {
+gulp.task('html', ['views', 'styles'], function () {
     ...
 ```
 
 ```js
-gulp.task('html', ['styles', 'templates'], function () {
-    ...
+gulp.task('serve', ['views', 'styles', 'fonts'], function () {
+  ...
 ```
 
-### 7. Configure `html` task to include files from `.tmp`
+### 6. Configure `html` task to include files from `.tmp`
 
 ```diff
- gulp.task('html', ['styles', 'templates'], function () {
-   var assets = $.useref.assets({searchPath: '{.tmp,app}'});
+ gulp.task('html', ['styles', 'views'], function () {
+   var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
 -  return gulp.src('app/*.html')
 +  return gulp.src(['app/*.html', '.tmp/*.html'])
@@ -108,44 +116,42 @@ gulp.task('html', ['styles', 'templates'], function () {
  });
 ```
 
-### 8. Configure `wiredep` task to wire bower components on layout templates only
+### 7. Configure `wiredep` task to wire Bower components on layout templates only
 
 ```diff
-    gulp.task('wiredep', function () {
-      var wiredep = require('wiredep').stream;
-
-      gulp.src('app/styles/*.scss')
-        .pipe(wiredep())
-        .pipe(gulp.dest('app/styles'));
-
--     gulp.src('app/*.html')
-+     gulp.src('app/templates/layouts/*.html')
-        .pipe(wiredep())
--       .pipe(gulp.dest('app'));
-+       .pipe(gulp.dest('app/templates/layouts'));
-    });
+  gulp.task('wiredep', function () {
+    ...
+-   gulp.src('app/*.html')
++   gulp.src('app/layouts/*.html')
+      .pipe(wiredep({
+        exclude: ['bootstrap-sass-official'],
+        ignorePath: /^(\.\.\/)*\.\./
+      }))
+-     .pipe(gulp.dest('app'));
++     .pipe(gulp.dest('app/layouts'));
+  });
 ```
 
 
-### 9. Configure watch
+### 8. Edit your `serve` task
 
-Edit your `watch` task so that (a) editing an `templates/**/*.html` file triggers the `templates` task, and (b) the LiveReload server:
+Edit your `serve` task so that (a) editing an `app/**/*.html` file triggers the `views` task, and (b) reloads the browser:
 
 ```diff
-    gulp.task('watch', ['connect', 'serve'], function () {
-      $.livereload.listen();
+  gulp.task('serve', ['views', 'styles', 'fonts'], function () {
+    ...
+    gulp.watch([
+-     'app/*.html',
++     '.tmp/*.html',
+      '.tmp/styles/**/*.css',
+      'app/scripts/**/*.js',
+      'app/images/**/*'
+    ]).on('change', reload);
 
-      // watch for changes
-      gulp.watch([
-        'app/*.html',
-+       '.tmp/*.html',
-        '.tmp/styles/**/*.css',
-        'app/scripts/**/*.js',
-        'app/images/**/*'
-      ]).on('change', $.livereload.changed);
-
-+     gulp.watch('app/templates/**/*.html', ['templates']);
-      gulp.watch('app/styles/**/*.scss', ['styles']);
-      gulp.watch('bower.json', ['wiredep']);
-    });
++   gulp.watch('app/**/*.html', ['views', reload]);
+    gulp.watch('app/styles/**/*.scss', ['styles', reload]);
+    gulp.watch('bower.json', ['wiredep', 'fonts', reload]);
+  });
 ```
+
+Notice that we don't watch `.html` files in `app` anymore (unlike in the [Jade](docs/recipes/jade.md) recipe). This is because our templates and compiled files have the same extension, so we want to make sure to refresh the browser once the templates have been compiled.
