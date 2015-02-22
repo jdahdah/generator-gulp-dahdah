@@ -16,8 +16,8 @@ gulp.task('styles', function () {<% if (includeSass) { %>
       onError: console.error.bind(console, 'Sass error:')
     }))<% } else { %>
   return gulp.src('app/styles/main.less')
-    .pipe($.sourcemaps.init())<% } %>
-    .pipe($.less())
+    .pipe($.sourcemaps.init())
+    .pipe($.less())<% } %>
     .pipe($.postcss([
       require('autoprefixer-core')({browsers: ['last 3 versions']})
     ]))
