@@ -56,6 +56,10 @@ module.exports = yeoman.generators.Base.extend({
         value: 'includeBootstrap',
         checked: false
       }, {
+        name: 'Fastclick',
+        value: 'includeFastclick',
+        checked: true
+      }, {
         name: 'Modernizr',
         value: 'includeModernizr',
         checked: true
@@ -74,6 +78,7 @@ module.exports = yeoman.generators.Base.extend({
       this.includeSass = hasFeature('includeSass');
       this.includeBootstrap = hasFeature('includeBootstrap');
       this.includeModernizr = hasFeature('includeModernizr');
+      this.includeFastclick = hasFeature('includeFastclick');
 
       done();
     }.bind(this));
@@ -110,6 +115,10 @@ module.exports = yeoman.generators.Base.extend({
 
       if (this.includeModernizr) {
         bower.dependencies.modernizr = '~2.8.1';
+      }
+
+      if (this.includeFastclick) {
+        bower.dependencies['fastclick'] = '~1.0.6';
       }
 
       this.copy('bowerrc', '.bowerrc');
