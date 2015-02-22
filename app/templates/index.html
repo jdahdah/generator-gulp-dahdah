@@ -53,10 +53,14 @@
           <p>Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.</p>
           <% } %>
           <h4>Bootstrap</h4>
-          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p><% if (includeModernizr) { %>
+          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p><% if (includeFastclick) { %>
+          <h4>Fastclick</h4>
+          <p>FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers.</p><% } if (includeModernizr) { %>
           <h4>Modernizr</h4>
           <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
           <% } %>
+          <h4>Normalize.css</h4>
+          <p>Normalize.css is a customisable CSS file that makes browsers render all elements more consistently and in line with modern standards.</p>
         </div>
       </div>
 
@@ -71,8 +75,10 @@
       <ul>
         <li>HTML5 Boilerplate</li><% if (includeSass) { %>
         <li>Sass</li><% } else { %>
-        <li>Less</li><% } if (includeModernizr) { %>
+        <li>Less</li><% } if (includeFastclick) { %>
+        <li>Fastclick</li><% } if (includeModernizr) { %>
         <li>Modernizr</li><% } %>
+        <li>Normalize.css</li>
       </ul>
     </div>
     <% } %>
