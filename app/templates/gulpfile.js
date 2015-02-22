@@ -15,8 +15,9 @@ gulp.task('styles', function () {<% if (includeSass) { %>
       includePaths: ['.'],
       onError: console.error.bind(console, 'Sass error:')
     }))<% } else { %>
-  return gulp.src('app/styles/main.css')
+  return gulp.src('app/styles/main.less')
     .pipe($.sourcemaps.init())<% } %>
+    .pipe($.less())
     .pipe($.postcss([
       require('autoprefixer-core')({browsers: ['last 1 version']})
     ]))
@@ -97,7 +98,7 @@ gulp.task('serve', ['styles', 'fonts'], function () {
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
-  gulp.watch('app/styles/**/*.<%= includeSass ? 'scss' : 'css' %>', ['styles']);
+  gulp.watch('app/styles/**/*.<%= includeSass ? 'scss' : 'less' %>', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
@@ -107,6 +108,12 @@ gulp.task('wiredep', function () {
   var wiredep = require('wiredep').stream;
 <% if (includeSass) { %>
   gulp.src('app/styles/*.scss')
+    .pipe(wiredep({
+      ignorePath: /^(\.\.\/)+/
+    }))
+    .pipe(gulp.dest('app/styles'));
+<% } else { %>
+  gulp.src('app/styles/*.less')
     .pipe(wiredep({
       ignorePath: /^(\.\.\/)+/
     }))
