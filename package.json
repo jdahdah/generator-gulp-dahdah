@@ -1,7 +1,7 @@
 {
   "name": "generator-gulp-dahdah",
-  "description": "Scaffold out a front-end web app",
   "version": "0.3.0",
+  "description": "Scaffold out a front-end web app, based on generator-gulp-webapp by The Yeoman Team",
   "license": "BSD",
   "repository": "jdahdah/generator-gulp-dahdah",
   "author": "Jerome Dahdah",
