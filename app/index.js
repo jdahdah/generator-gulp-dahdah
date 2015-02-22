@@ -40,7 +40,7 @@ module.exports = yeoman.generators.Base.extend({
     var done = this.async();
 
     if (!this.options['skip-welcome-message']) {
-      this.log(yosay('\'Allo \'allo! Out of the box I include HTML5 Boilerplate, jQuery, and a gulpfile.js to build your app.'));
+      this.log(yosay('\'Allo \'allo! Out of the box I include HTML5 Boilerplate, jQuery, normalize.css, and a gulpfile.js to build your app.'));
     }
 
     var prompts = [{
@@ -105,6 +105,7 @@ module.exports = yeoman.generators.Base.extend({
         bower.dependencies[bs] = '~3.3.1';
       } else {
         bower.dependencies.jquery = '~2.1.1';
+        bower.dependencies['normalize-css'] = '~3.0.2';
       }
 
       if (this.includeModernizr) {
