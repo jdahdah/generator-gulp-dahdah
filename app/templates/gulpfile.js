@@ -16,6 +16,10 @@ gulp.task('styles', function () {<% if (includeSass) { %>
       onError: console.error.bind(console, 'Sass error:')
     }))<% } else { %>
   return gulp.src('app/styles/main.less')
+    .pipe($.plumber(function(error) {
+      gutil.log(gutil.colors.red(error.message));
+      this.emit('end');
+    }))
     .pipe($.sourcemaps.init())
     .pipe($.less())<% } %>
     .pipe($.postcss([
@@ -28,6 +32,10 @@ gulp.task('styles', function () {<% if (includeSass) { %>
 
 gulp.task('jshint', function () {
   return gulp.src('app/scripts/**/*.js')
+    .pipe($.plumber(function(error) {
+      gutil.log(gutil.colors.red(error.message));
+      this.emit('end');
+    }))
     .pipe(reload({stream: true, once: true}))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
