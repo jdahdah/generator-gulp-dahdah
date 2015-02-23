@@ -6,6 +6,7 @@
 // bower:less
 // endbower
 
+
 // All variables required for project
 @import "variables.less";
 
@@ -13,9 +14,8 @@
 @import "mixins.less";
 
 // Font vendor styles go here
-@import "fonts.less";
+@import "fonts.less";<% if (includeBootstrap) { %>
 
-<% if (includeBootstrap) { %>
 // Overrides for original Bootstrap .less files
 // @import "type.less";
 // @import "tables.less";
@@ -23,7 +23,6 @@
 
 // Note: Anything else that isn't a module goes in styles.less
 @import "styles.less";
-
 
 // Import other .less modules here
 

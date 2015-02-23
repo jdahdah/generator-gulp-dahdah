@@ -6,6 +6,7 @@
 // bower:scss
 // endbower
 
+
 // All variables required for project
 @import "variables";
 
@@ -13,9 +14,8 @@
 @import "mixins";
 
 // Font vendor styles go here
-@import "fonts";
+@import "fonts";<% if (includeBootstrap) { %>
 
-<% if (includeBootstrap) { %>
 // Overrides for original Bootstrap .scss files
 // @import "type";
 // @import "tables";
@@ -23,7 +23,6 @@
 
 // Note: Anything else that isn't a module goes in styles.scss
 @import "styles";
-
 
 // Import other .scss modules here
 
