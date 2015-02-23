@@ -98,6 +98,9 @@ gulp.task('serve', ['styles', 'fonts'], function () {
     }
   });
 
+  // wait for browserSync to start before running jshint
+  gulp.start('jshint');
+
   // watch for changes
   gulp.watch([
     'app/*.html',
