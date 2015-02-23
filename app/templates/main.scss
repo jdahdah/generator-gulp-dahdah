@@ -5,10 +5,6 @@
 // bower:scss
 // endbower
 
-<% if (includeBootstrap) { %>
-// Import original Bootstrap framework
-@import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";<% } %>
-
 // Note: A full copy of Bootstrap's variables.scss is provided for easier site-wide adjustments
 @import "variables";
 
