@@ -241,7 +241,7 @@ module.exports = yeoman.generators.Base.extend({
       wiredep({
         bowerJson: bowerJson,
         directory: 'bower_components',
-        exclude: ['bootstrap-sass', 'bootstrap.js'],
+        exclude: ['bootstrap/dist', 'bootstrap-sass', 'bootstrap.js'],
         ignorePath: /^(\.\.\/)*\.\./,
         src: 'app/index.html'
       });
@@ -253,6 +253,14 @@ module.exports = yeoman.generators.Base.extend({
           directory: 'bower_components',
           ignorePath: /^(\.\.\/)+/,
           src: 'app/styles/*.scss'
+        });
+      } else {
+        // wire Bower packages to .less
+        wiredep({
+          bowerJson: bowerJson,
+          directory: 'bower_components',
+          ignorePath: /^(\.\.\/)+/,
+          src: 'app/styles/*.less'
         });
       }
 
