@@ -1,0 +1,51 @@
+// Project: ________
+// File purpose: Project-specific mixins<% if (includeBootstrap) { %> in addition to original bootstrap mixins<% } %>
+
+
+// Workaround for web fonts with separate files per style (bold, italic, etc.)
+@mixin font-weight-normal { font-family: $font-family-sans-serif;         font-weight: normal; }
+@mixin font-weight-bold   { font-family: $font-family-sans-serif-bold;    font-weight: normal; }
+@mixin font-style-italic  { font-family: $font-family-sans-serif-italic;  font-style:  normal; }
+
+
+// Tester class for debugging
+// Can take any CSS color values including names. Defaults to red when nothing is specified.
+@mixin tester($color: red) {
+  background: transparentize($color, 0.5);
+}
+<% if (includeBootstrap) { %>
+// Remove gutter from Bootstrap columns
+@mixin no-gutter {
+  margin-left: 0;
+  margin-right: 0;
+  > [class^="col-"],
+  > [class*=" col-"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+<% } %>
+// Vertical center
+@mixin vertical-center {
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+
+// Smooth hovers
+@mixin smoothhover($property: all 250ms) {
+  transition: $property;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+
+// Smooth hovers (opacity change only)
+@mixin smoothhover-opacity($property: $opacityhover) {
+  transition: opacity 250ms;
+  &:hover {
+    opacity: $property;
+    text-decoration: none;
+  }
+}

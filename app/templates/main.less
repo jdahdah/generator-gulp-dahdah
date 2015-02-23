@@ -1,0 +1,32 @@
+// Project: ________
+// File purpose: Import <% if (includeBootstrap) { %>original Bootstrap framework and then provide overrides for original .less files where necessary<% } else { %>all project .less files<% } %>
+// Author: Jerome Dahdah - http://dahdah.io
+
+// bower:less
+// endbower
+
+<% if (includeBootstrap) { %>
+// Import original Bootstrap framework
+@import "bower_components/bootstrap/less/bootstrap.less";<% } %>
+
+// Note: A full copy of Bootstrap's variables.less is provided for easier site-wide adjustments
+@import "variables.less";
+
+// Custom Mixins for site-wide use
+@import "mixins.less";
+
+// Font vendor styles go here
+@import "fonts.less";
+
+<% if (includeBootstrap) { %>
+// Overrides for original Bootstrap .less files
+// @import "type.less";
+// @import "tables.less";
+// etc...<% } %>
+
+// Note: Anything else that isn't a module goes in here main.less
+@import "styles.less";
+
+
+// Import other .less modules here
+

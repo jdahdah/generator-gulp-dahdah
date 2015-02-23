@@ -1,0 +1,32 @@
+// Project: ________
+// File purpose: Import <% if (includeBootstrap) { %>original Bootstrap framework and then provide overrides for original .scss files where necessary<% } else { %>all project .scss files<% } %>
+// Author: Jerome Dahdah - http://dahdah.io
+
+// bower:scss
+// endbower
+
+<% if (includeBootstrap) { %>
+// Import original Bootstrap framework
+@import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";<% } %>
+
+// Note: A full copy of Bootstrap's variables.scss is provided for easier site-wide adjustments
+@import "variables";
+
+// Custom Mixins for site-wide use
+@import "mixins";
+
+// Font vendor styles go here
+@import "fonts";
+
+<% if (includeBootstrap) { %>
+// Overrides for original Bootstrap .scss files
+// @import "type";
+// @import "tables";
+// etc...<% } %>
+
+// Note: Anything else that isn't a module goes in here main.scss
+@import "styles";
+
+
+// Import other .scss modules here
+

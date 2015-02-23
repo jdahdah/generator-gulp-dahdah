@@ -1,0 +1,14 @@
+// Project: ________
+// File purpose: Custom variables for project
+// Author: Jerome Dahdah - http://dahdah.io
+
+
+$opacityhover: 0.75; // standard opacity for hovers
+
+// Workaround for web fonts with separate files per style (bold, italic, etc.)
+$font-family-sans-serif:          ""; 
+$font-family-sans-serif-bold:     "";
+$font-family-sans-serif-italic:   "";
+
+
+<% if (includeBootstrap) { %>// NOTE: Copy content of bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss into this file to start customizing Bootstrap<% } %>

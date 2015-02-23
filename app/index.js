@@ -150,6 +150,21 @@ module.exports = yeoman.generators.Base.extend({
       this.copy(css, 'app/styles/' + css);
     },
 
+    customStylesheets: function () {
+
+      if (this.includeSass) {
+        this.copy('styles/fonts.scss',     'app/styles/fonts.scss');
+        this.copy('styles/mixins.scss',    'app/styles/mixins.scss');
+        this.copy('styles/styles.scss',    'app/styles/styles.scss');
+        this.copy('styles/variables.scss', 'app/styles/variables.scss');
+      } else {
+        this.copy('styles/fonts.less',     'app/styles/fonts.less');
+        this.copy('styles/mixins.less',    'app/styles/mixins.less');
+        this.copy('styles/styles.less',    'app/styles/styles.less');
+        this.copy('styles/variables.less', 'app/styles/variables.less');
+      }
+    },
+
     writeIndex: function () {
       this.indexFile = this.src.read('index.html');
       this.indexFile = this.engine(this.indexFile, this);
