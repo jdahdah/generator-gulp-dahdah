@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
+    "jade": "^1.9.2",
     "wiredep": "^2.2.2",
     "yeoman-generator": "^0.18.5",
     "yosay": "^1.0.0"
