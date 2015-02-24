@@ -4,6 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var chalk = require('chalk');
+var jade = require('jade');
 var wiredep = require('wiredep');
 
 module.exports = yeoman.generators.Base.extend({
@@ -52,6 +53,10 @@ module.exports = yeoman.generators.Base.extend({
         value: 'includeSass',
         checked: false
       }, {
+        name: 'Jade',
+        value: 'includeJade',
+        checked: false
+      }, {
         name: 'Bootstrap',
         value: 'includeBootstrap',
         checked: false
@@ -76,6 +81,7 @@ module.exports = yeoman.generators.Base.extend({
       // manually deal with the response, get back and store the results.
       // we change a bit this way of doing to automatically do this in the self.prompt() method.
       this.includeSass = hasFeature('includeSass');
+      this.includeJade = hasFeature('includeJade');
       this.includeBootstrap = hasFeature('includeBootstrap');
       this.includeModernizr = hasFeature('includeModernizr');
       this.includeFastclick = hasFeature('includeFastclick');
@@ -166,7 +172,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writeIndex: function () {
-      this.indexFile = this.src.read('index.html');
+      this.indexFile = this.src.read('index.jade');
       this.indexFile = this.engine(this.indexFile, this);
 
       // wire Bootstrap plugins
@@ -202,7 +208,7 @@ module.exports = yeoman.generators.Base.extend({
         sourceFileList: ['scripts/main.js']
       });
 
-      this.write('app/index.html', this.indexFile);
+      this.write('app/index.jade', this.indexFile);
     },
 
     app: function () {
