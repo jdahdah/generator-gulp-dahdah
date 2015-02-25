@@ -227,7 +227,12 @@ module.exports = yeoman.generators.Base.extend({
         sourceFileList: ['scripts/main.js']
       });
 
-      this.write('app/index.jade', this.indexFile);
+      if (this.includeJade) {
+        this.write('app/index.jade', this.indexFile);
+      } else {
+        jade.render(this.indexFile);
+        this.write('app/index.html', this.indexFile);
+      }
     },
 
     app: function () {
@@ -260,6 +265,14 @@ module.exports = yeoman.generators.Base.extend({
     });
 
     this.on('end', function () {
+
+      // if (!this.includeJade) {
+      //   jade.renderFile({
+      //     filename: 'app/index.jade',
+      //     merge(pretty)
+      //   });
+      // }
+
       var bowerJson = this.dest.readJSON('bower.json');
 
       // wire Bower packages to .html
