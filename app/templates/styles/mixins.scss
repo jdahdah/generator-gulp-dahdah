@@ -15,6 +15,7 @@
   background: transparentize($color, 0.5);
 }
 <% if (includeBootstrap) { %>
+
 // Remove gutter from Bootstrap columns
 @mixin no-gutter {
   margin-left: 0;

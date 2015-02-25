@@ -3,10 +3,10 @@
 // Author: Jerome Dahdah - http://dahdah.io
 
 
-$opacityhover: 0.75; // standard opacity for hovers
+$opacityhover: 0.75; // standard opacity for smooth hovers
 
-// Workaround for web fonts with separate files per style (bold, italic, etc.)<% if (!includeBootstrap) { %>
-$font-family-sans-serif:          'Helvetica Neue', Helvetica, Arial, sans-serif;
+// Workaround for web fonts with separate files per style (bold, italic, etc.)
+<% if (!includeBootstrap) { %>$font-family-sans-serif:          'Helvetica Neue', Helvetica, Arial, sans-serif;
 <% } %>$font-family-sans-serif-bold:     "";
 $font-family-sans-serif-italic:   "";
 
