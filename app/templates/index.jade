@@ -1,4 +1,4 @@
-!!! 5
+doctype html
 html(class='no-js')
   head
     meta(charset='utf-8')
@@ -7,45 +7,46 @@ html(class='no-js')
     meta(content='width=device-width, initial-scale=1', name='viewport')
     title <%= appname %>
     // Place favicon.ico and apple-touch-icon.png in the root directory
-
+      
     // build:css styles/vendor.css
     // bower:css
     // endbower
     // endbuild
-    
+     
     // build:css styles/main.css
     link(href='styles/main.css', rel='stylesheet')
     // endbuild
-  body
     <% if (includeModernizr) { %>
     // build:js scripts/vendor/modernizr.js
     script(src='/bower_components/modernizr/modernizr.js')
     // endbuild
     <% } %>
-    //if lt IE 10
-      p.browserupgrade
-        :markdown
-          You are using an **outdated** browser. Please [upgrade your browser](http://browsehappy.com/) to improve your experience.
-
+     
+  body
+    
+    script.
+      <!--[if lt IE 10]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+    
     <% if (includeBootstrap) { %>
-
     .container
       .header
         ul.nav.nav-pills.pull-right
           li.active:  a(href='#') Home
           li:         a(href='#') About
           li:         a(href='#') Contact
-
+         
         h3.text-muted <%= appname %>
-
+         
       .jumbotron
         h1      'Allo, 'Allo!
         p.lead  Always a pleasure scaffolding your apps.
         p:      a.btn.btn-lg.btn-success(href='#') Splendid!
-
+         
       .row.marketing
         .col-lg-6
-          
+           
           h4 HTML5 Boilerplate
           p  HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
 
@@ -77,18 +78,13 @@ html(class='no-js')
 
       ul
         li HTML5 Boilerplate
-        <% if (includeSass) { %>
-        li Sass
-        <% } else { %>
-        li Less
-        <% } if (includeFastclick) { %>
-        li Fastclick
-        <% } if (includeModernizr) { %>
-        li Modernizr
-        <% } %>
+        <% if (includeSass) { %>li Sass<% } else { %>
+        li Less<% } if (includeFastclick) { %>
+        li Fastclick<% } if (includeModernizr) { %>
+        li Modernizr<% } %>
         li Normalize.css
     <% } %>
-    
+     
     // Google Analytics: change UA-XXXXX-X to be your site's ID.
     script.
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -97,7 +93,7 @@ html(class='no-js')
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
-
+     
     // build:js scripts/vendor.js
     // bower:js
     // endbower
