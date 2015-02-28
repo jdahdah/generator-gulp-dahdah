@@ -1,5 +1,9 @@
 /*global -$ */
 'use strict';
+// Project: <%= fullname %> (<%= shortname %>)
+// File purpose: Core tasks for project
+// Author: <%= author %>
+
 // generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();

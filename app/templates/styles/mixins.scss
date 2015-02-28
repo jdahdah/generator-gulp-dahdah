@@ -1,6 +1,6 @@
-// Project: <%= appname %>
+// Project: <%= fullname %> (<%= shortname %>)
 // File purpose: Project-specific mixins<% if (includeBootstrap) { %> in addition to original bootstrap mixins<% } %>
-// Author: Jerome Dahdah - http://dahdah.io
+// Author: <%= author %>
 
 
 // Workaround for web fonts with separate files per style (bold, italic, etc.)

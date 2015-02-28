@@ -48,7 +48,7 @@ module.exports = yeoman.generators.Base.extend({
       name: 'features',
       message: 'What more would you like?',
       choices: [{
-        name: 'Sass',
+        name: 'Sass instead of Less',
         value: 'includeSass',
         checked: false
       }, {
@@ -64,6 +64,21 @@ module.exports = yeoman.generators.Base.extend({
         value: 'includeModernizr',
         checked: true
       }]
+    }, {
+      type: 'input',
+      name: 'shortname',
+      message: 'Project short name?',
+      default: this.appname
+    }, {
+      type: 'input',
+      name: 'fullname',
+      message: 'Project full name?',
+      default: this.appname
+    }, {
+      type: 'input',
+      name: 'author',
+      message: 'Author name? (That\'s you!)',
+      store: true
     }];
 
     this.prompt(prompts, function (answers) {
@@ -79,6 +94,10 @@ module.exports = yeoman.generators.Base.extend({
       this.includeBootstrap = hasFeature('includeBootstrap');
       this.includeModernizr = hasFeature('includeModernizr');
       this.includeFastclick = hasFeature('includeFastclick');
+
+      this.shortname = answers.shortname;
+      this.fullname  = answers.fullname;
+      this.author    = answers.author;
 
       done();
     }.bind(this));
@@ -100,7 +119,7 @@ module.exports = yeoman.generators.Base.extend({
 
     bower: function() {
       var bower = {
-        name: this._.slugify(this.appname),
+        name: this._.slugify(this.shortname),
         private: true,
         dependencies: {}
       };
