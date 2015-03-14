@@ -46,10 +46,16 @@ gulp.task('jshint', function () {
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
-gulp.task('html', ['styles'], function () {
+<% if (includeJade) { %>gulp.task('views', function () {
+  return gulp.src('app/*.jade')
+    .pipe($.jade({pretty: true}))
+    .pipe(gulp.dest('.tmp'));
+});<% } %>
+
+gulp.task('html', [<% if (includeJade) { %>'views', <% } %>'styles'], function () {
   var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
-  return gulp.src('app/*.html')
+  <% if (includeJade) { %>return gulp.src(['app/*.html', '.tmp/*.html'])<% } else { %>return gulp.src('app/*.html')<% } %>
     .pipe(assets)
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
@@ -82,7 +88,8 @@ gulp.task('fonts', function () {
 gulp.task('extras', function () {
   return gulp.src([
     'app/*.*',
-    '!app/*.html'
+    '!app/*.html'<% if (includeJade) { %>,
+    '!app/*.jade'<% } %>
   ], {
     dot: true
   }).pipe(gulp.dest('dist'));
@@ -90,7 +97,7 @@ gulp.task('extras', function () {
 
 gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'fonts'], function () {
+gulp.task('serve', [<% if (includeJade) { %>'views', <% } %>'styles', 'fonts'], function () {
   browserSync({
     notify: false,
     port: 9000,
@@ -108,11 +115,13 @@ gulp.task('serve', ['styles', 'fonts'], function () {
   // watch for changes
   gulp.watch([
     'app/*.html',
+    <% if (includeJade) { %>'.tmp/*.html',<% } %>
     'app/scripts/**/*.js',
     'app/images/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
+  <% if (includeJade) { %>gulp.watch('app/**/*.jade', ['views', reload]);<% } %>
   gulp.watch('app/styles/**/*.<%= includeSass ? 'scss' : 'less' %>', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);
@@ -144,7 +153,7 @@ gulp.task('wiredep', function () {
     }))
     .pipe(gulp.dest('app/styles'));
 <% } %>
-  gulp.src('app/*.html')
+  <% if (includeJade) { %>gulp.src('app/layouts/*.jade')<% } else { %>gulp.src('app/*.html')<% } %>
     .pipe(wiredep({<% if (includeSass && includeBootstrap) { %>
       exclude: ['bootstrap-sass-official'],<% } else if (includeBootstrap) { %>
       exclude: ['bootstrap/dist'],<% } %>
