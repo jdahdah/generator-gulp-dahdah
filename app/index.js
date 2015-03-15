@@ -253,11 +253,21 @@ module.exports = yeoman.generators.Base.extend({
         src: 'app/index' + html
       });
 
+      // wire Bower packages to .scss/.less
+
       if (this.includeSass) {
         var css = 'scss';
       } else {
         var css = 'less';
       }
+
+      wiredep({
+        bowerJson: bowerJson,
+        directory: 'bower_components',
+        ignorePath: /^(\.\.\/)+/,
+        src: 'app/styles/*.' + css
+      });
+    
 
       // ideally we should use composeWith, but we're invoking it here
       // because generator-mocha is changing the working directory
