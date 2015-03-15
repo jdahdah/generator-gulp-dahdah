@@ -228,13 +228,6 @@ module.exports = yeoman.generators.Base.extend({
 
     this.on('end', function () {
 
-      // if (!this.includeJade) {
-      //   jade.renderFile({
-      //     filename: 'app/index.jade',
-      //     merge(pretty)
-      //   });
-      // }
-
       var bowerJson = this.dest.readJSON('bower.json');
 
       // wire Bower packages to .html
