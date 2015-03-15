@@ -243,7 +243,7 @@ module.exports = yeoman.generators.Base.extend({
         directory: 'bower_components',
         exclude: ['bootstrap/dist', 'bootstrap-sass', 'bootstrap.js'],
         ignorePath: /^(\.\.\/)*\.\./,
-        src: 'app/index' + html
+        src: 'app/index.' + html
       });
 
       // wire Bower packages to .scss/.less
