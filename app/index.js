@@ -275,12 +275,19 @@ module.exports = yeoman.generators.Base.extend({
       var bowerJson = this.dest.readJSON('bower.json');
 
       // wire Bower packages to .html
+
+      if (this.includeJade) {
+        var html = 'jade';
+      } else {
+        var html = 'html';
+      }
+
       wiredep({
         bowerJson: bowerJson,
         directory: 'bower_components',
         exclude: ['bootstrap/dist', 'bootstrap-sass', 'bootstrap.js'],
         ignorePath: /^(\.\.\/)*\.\./,
-        src: 'app/index.html'
+        src: 'app/index' + html
       });
 
       if (this.includeSass) {
