@@ -190,47 +190,10 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writeIndex: function () {
-      this.indexFile = this.src.read('index.jade');
-      this.indexFile = this.engine(this.indexFile, this);
-
-      // wire Bootstrap plugins
-      if (this.includeBootstrap) {
-        var bs = '/bower_components/';
-
-        if (this.includeSass) {
-          bs += 'bootstrap-sass-official/assets/javascripts/bootstrap/';
-        } else {
-          bs += 'bootstrap/js/';
-        }
-
-        this.indexFile = this.appendScripts(this.indexFile, 'scripts/plugins.js', [
-          bs + 'affix.js',
-          bs + 'alert.js',
-          bs + 'dropdown.js',
-          bs + 'tooltip.js',
-          bs + 'modal.js',
-          bs + 'transition.js',
-          bs + 'button.js',
-          bs + 'popover.js',
-          bs + 'carousel.js',
-          bs + 'scrollspy.js',
-          bs + 'collapse.js',
-          bs + 'tab.js'
-        ]);
-      }
-
-      this.indexFile = this.appendFiles({
-        html: this.indexFile,
-        fileType: 'js',
-        optimizedPath: 'scripts/main.js',
-        sourceFileList: ['scripts/main.js']
-      });
-
       if (this.includeJade) {
-        this.write('app/index.jade', this.indexFile);
+        this.copy('index.jade', 'app/index.jade');
       } else {
-        jade.render(this.indexFile);
-        this.write('app/index.html', this.indexFile);
+        this.copy('index.html', 'app/index.html');
       }
     },
 

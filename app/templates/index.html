@@ -90,6 +90,33 @@
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
 
+    <% if (includeBootstrap) {
+      var bs = '/bower_components/';
+
+      if (includeSass) {
+        bs += 'bootstrap-sass-official/assets/javascripts/bootstrap/';
+      } else {
+        bs += 'bootstrap/js/';
+      }
+    }
+
+    if (includeBootstrap) { %>
+    <!-- build:js scripts/plugins.js -->
+    <script src="<%= bs %>affix.js"></script>
+    <script src="<%= bs %>alert.js"></script>
+    <script src="<%= bs %>dropdown.js"></script>
+    <script src="<%= bs %>tooltip.js"></script>
+    <script src="<%= bs %>modal.js"></script>
+    <script src="<%= bs %>transition.js"></script>
+    <script src="<%= bs %>button.js"></script>
+    <script src="<%= bs %>popover.js"></script>
+    <script src="<%= bs %>carousel.js"></script>
+    <script src="<%= bs %>scrollspy.js"></script>
+    <script src="<%= bs %>collapse.js"></script>
+    <script src="<%= bs %>tab.js"></script>
+    <!-- endbuild -->
+    <% } %>
+
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <!-- endbower -->
