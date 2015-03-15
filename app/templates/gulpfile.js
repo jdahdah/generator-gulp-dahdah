@@ -140,20 +140,14 @@ gulp.task('serve:dist', function () {
 // inject bower components
 gulp.task('wiredep', function () {
   var wiredep = require('wiredep').stream;
-<% if (includeSass) { %>
-  gulp.src('app/styles/*.scss')
-    .pipe(wiredep({
-      ignorePath: /^(\.\.\/)+/
-    }))
-    .pipe(gulp.dest('app/styles'));
-<% } else { %>
-  gulp.src('app/styles/*.less')
-    .pipe(wiredep({
-      ignorePath: /^(\.\.\/)+/
-    }))
-    .pipe(gulp.dest('app/styles'));
-<% } %>
-  <% if (includeJade) { %>gulp.src('app/layouts/*.jade')<% } else { %>gulp.src('app/*.html')<% } %>
+
+  gulp.src('app/styles/*.<%= includeSass ? 'scss' : 'less' %>')
+  .pipe(wiredep({
+    ignorePath: /^(\.\.\/)+/
+  }))
+  .pipe(gulp.dest('app/styles'));
+
+  gulp.src('app/*.<%= includeJade ? 'jade' : 'html' %>')
     .pipe(wiredep({<% if (includeSass && includeBootstrap) { %>
       exclude: ['bootstrap-sass-official'],<% } else if (includeBootstrap) { %>
       exclude: ['bootstrap/dist'],<% } %>

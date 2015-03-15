@@ -178,16 +178,15 @@ module.exports = yeoman.generators.Base.extend({
     customStylesheets: function () {
 
       if (this.includeSass) {
-        this.copy('styles/fonts.scss',     'app/styles/fonts.scss');
-        this.copy('styles/mixins.scss',    'app/styles/mixins.scss');
-        this.copy('styles/styles.scss',    'app/styles/styles.scss');
-        this.copy('styles/variables.scss', 'app/styles/variables.scss');
+        var css = '.scss';
       } else {
-        this.copy('styles/fonts.less',     'app/styles/fonts.less');
-        this.copy('styles/mixins.less',    'app/styles/mixins.less');
-        this.copy('styles/styles.less',    'app/styles/styles.less');
-        this.copy('styles/variables.less', 'app/styles/variables.less');
+        var css = '.less';
       }
+
+      this.copy('styles/fonts'      + css,  'app/styles/fonts'      + css);
+      this.copy('styles/mixins'     + css,  'app/styles/mixins'     + css);
+      this.copy('styles/styles'     + css,  'app/styles/styles'     + css);
+      this.copy('styles/variables'  + css,  'app/styles/variables'  + css);
     },
 
     writeIndex: function () {
@@ -285,21 +284,9 @@ module.exports = yeoman.generators.Base.extend({
       });
 
       if (this.includeSass) {
-        // wire Bower packages to .scss
-        wiredep({
-          bowerJson: bowerJson,
-          directory: 'bower_components',
-          ignorePath: /^(\.\.\/)+/,
-          src: 'app/styles/*.scss'
-        });
+        var css = 'scss';
       } else {
-        // wire Bower packages to .less
-        wiredep({
-          bowerJson: bowerJson,
-          directory: 'bower_components',
-          ignorePath: /^(\.\.\/)+/,
-          src: 'app/styles/*.less'
-        });
+        var css = 'less';
       }
 
       // ideally we should use composeWith, but we're invoking it here
