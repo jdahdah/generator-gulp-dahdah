@@ -22,7 +22,7 @@ gulp.task('styles', function () {<% if (includeSass) { %>
     }))<% } else { %>
   return gulp.src('app/styles/main.less')
     .pipe($.plumber(function(error) {
-      gutil.log(gutil.colors.red(error.message));
+      gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
       this.emit('end');
     }))
     .pipe($.sourcemaps.init())
@@ -38,7 +38,7 @@ gulp.task('styles', function () {<% if (includeSass) { %>
 gulp.task('jshint', function () {
   return gulp.src('app/scripts/**/*.js')
     .pipe($.plumber(function(error) {
-      gutil.log(gutil.colors.red(error.message));
+      gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
       this.emit('end');
     }))
     .pipe(reload({stream: true, once: true}))
@@ -49,6 +49,10 @@ gulp.task('jshint', function () {
 
 <% if (includeJade) { %>gulp.task('views', function () {
   return gulp.src('app/*.jade')
+    .pipe($.plumber(function(error) {
+      gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+      this.emit('end');
+    }))
     .pipe($.jade({pretty: true}))
     .pipe(gulp.dest('.tmp'));
 });<% } %>
