@@ -23,6 +23,7 @@ gulp.task('styles', function () {<% if (includeSass) { %>
   return gulp.src('app/styles/main.less')
     .pipe($.plumber(function(error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+      gutil.beep();
       this.emit('end');
     }))
     .pipe($.sourcemaps.init())
@@ -39,6 +40,7 @@ gulp.task('jshint', function () {
   return gulp.src('app/scripts/**/*.js')
     .pipe($.plumber(function(error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+      gutil.beep();
       this.emit('end');
     }))
     .pipe(reload({stream: true, once: true}))
@@ -51,6 +53,7 @@ gulp.task('jshint', function () {
   return gulp.src('app/*.jade')
     .pipe($.plumber(function(error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+      gutil.beep();
       this.emit('end');
     }))
     .pipe($.jade({pretty: true}))
