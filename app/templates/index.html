@@ -18,9 +18,11 @@
     <% if (includeModernizr) { %>
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild --><% } %>
+    <!-- endbuild -->
+    <% } %>
   </head>
   <body>
+
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -44,26 +46,24 @@
       <div class="row marketing">
         <div class="col-lg-6">
           <h4>HTML5 Boilerplate</h4>
-          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-          <% if (includeSass) { %>
+          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p><% if (includeSass) { %>
           <h4>Sass</h4>
-          <p>Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.</p>
-          <% } %>
+          <p>Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.</p><% } else { %>
+          <h4>Less</h4>
+          <p>Less extends CSS with dynamic behavior such as variables, mixins, operations and functions.</p><% } %>
           <h4>Bootstrap</h4>
           <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p><% if (includeFastclick) { %>
           <h4>Fastclick</h4>
           <p>FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers.</p><% } if (includeModernizr) { %>
           <h4>Modernizr</h4>
-          <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-          <% } %>
+          <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p><% } %>
         </div>
       </div>
 
       <div class="footer">
-        <p>♥ from the Yeoman team &amp; <a href="http://dahdah.de/en/"></a>Dahdah Design</p>
+        <p>♥ from the Yeoman team &amp; <a href="http://dahdah.de/en/">Dahdah Design</a></p>
       </div>
-    </div>
-    <% } else { %>
+    </div><% } else { %>
     <div class="hero-unit">
       <h1>'Allo, 'Allo!</h1>
       <p>You now have</p>
@@ -75,8 +75,8 @@
         <li>Modernizr</li><% } %>
         <li>Normalize.css</li>
       </ul>
-    </div>
-    <% } %>
+    </div><% } %>
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -86,7 +86,6 @@
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
-
     <% if (includeBootstrap) {
       var bs = '/bower_components/';
 
@@ -94,10 +93,7 @@
         bs += 'bootstrap-sass-official/assets/javascripts/bootstrap/';
       } else {
         bs += 'bootstrap/js/';
-      }
-    }
-
-    if (includeBootstrap) { %>
+      } %>
     <!-- build:js scripts/plugins.js -->
     <script src="<%= bs %>affix.js"></script>
     <script src="<%= bs %>alert.js"></script>
@@ -113,7 +109,6 @@
     <script src="<%= bs %>tab.js"></script>
     <!-- endbuild -->
     <% } %>
-
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <!-- endbower -->
