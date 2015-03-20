@@ -13,12 +13,16 @@ var reload = browserSync.reload;
 
 gulp.task('styles', function () {<% if (includeSass) { %>
   return gulp.src('app/styles/main.scss')
+    .pipe($.plumber(function(error) {
+      gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+      gutil.beep();
+      this.emit('end');
+    }))
     .pipe($.sourcemaps.init())
     .pipe($.sass({
       outputStyle: 'nested', // libsass doesn't support expanded yet
       precision: 10,
-      includePaths: ['.'],
-      onError: console.error.bind(console, 'Sass error:')
+      includePaths: ['.']
     }))<% } else { %>
   return gulp.src('app/styles/main.less')
     .pipe($.plumber(function(error) {
