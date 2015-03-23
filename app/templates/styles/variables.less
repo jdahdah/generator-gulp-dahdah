@@ -10,5 +10,8 @@
 <% } %>@font-family-sans-serif-bold:     "";
 @font-family-sans-serif-italic:   "";
 
+<% if (!includeBootstrap) { %>@body-background:         #fff;
+@text-color:              #333;
+<% } %>
 
 <% if (includeBootstrap) { %>// NOTE: Paste content of bootstrap/less/variables.less below this line to start customizing Bootstrap<% } %>
