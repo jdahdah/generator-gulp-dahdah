@@ -57,6 +57,8 @@ html(lang='')<% if (includeModernizr) { %>.no-js<% } %>
           p  Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.<% } else { %>
           h4 Less
           p  Less extends CSS with dynamic behavior such as variables, mixins, operations and functions.<% } %>
+          h4 Jade
+          p Jade is a high performance template engine heavily influenced by Haml and implemented with JavaScript for node and browsers.
           h4 Bootstrap
           p  Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.<% if (includeFastclick) { %>
           h4 Fastclick
@@ -73,7 +75,8 @@ html(lang='')<% if (includeModernizr) { %>.no-js<% } %>
       ul
         li HTML5 Boilerplate<% if (includeSass) { %>
         li Sass<% } else { %>
-        li Less<%} if (includeFastclick) { %>
+        li Less<% } %>
+        li Jade<% if (includeFastclick) { %>
         li Fastclick<% } if (includeModernizr) { %>
         li Modernizr<% } %>
         li Normalize.css<% } %>
