@@ -14,7 +14,7 @@
     "gulp-imagemin": "^2.2.1",<% if (includeJade) { %>
     "gulp-jade": "^1.0.0",<% } %>
     "gulp-jshint": "^1.9.2",<% if (!includeSass) { %>
-    "gulp-less": "^2.0.1",<% } %>
+    "gulp-less": "^3.0.0",<% } %>
     "gulp-load-plugins": "^0.8.1",
     "gulp-minify-html": "^1.0.0",
     "gulp-plumber": "^0.6.6",
