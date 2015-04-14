@@ -1,0 +1,40 @@
+
+// Google Analytics: change UA-XXXXX-X to be your site's ID.
+script.
+  (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+  function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+  e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+  e.src='//www.google-analytics.com/analytics.js';
+  r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+  ga('create','UA-XXXXX-X');ga('send','pageview');
+<% if (includeBootstrap) {
+  var bs = '/bower_components/';
+
+  if (includeSass) {
+    bs += 'bootstrap-sass-official/assets/javascripts/bootstrap/';
+  } else {
+    bs += 'bootstrap/js/';
+  } %>
+// build:js scripts/plugins.js
+script(src='<%= bs %>affix.js')
+script(src='<%= bs %>alert.js')
+script(src='<%= bs %>dropdown.js')
+script(src='<%= bs %>tooltip.js')
+script(src='<%= bs %>modal.js')
+script(src='<%= bs %>transition.js')
+script(src='<%= bs %>button.js')
+script(src='<%= bs %>popover.js')
+script(src='<%= bs %>carousel.js')
+script(src='<%= bs %>scrollspy.js')
+script(src='<%= bs %>collapse.js')
+script(src='<%= bs %>tab.js')
+// endbuild
+<% } %>
+// build:js scripts/vendor.js
+// bower:js
+// endbower
+// endbuild
+
+// build:js scripts/main.js
+script(src='scripts/main.js')
+// endbuild

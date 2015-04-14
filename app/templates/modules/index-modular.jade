@@ -1,0 +1,52 @@
+extends ./layouts/default.jade
+
+block content
+<% if (includeBootstrap) { %>
+  .container
+    .header
+      ul.nav.nav-pills.pull-right
+        li.active:  a(href='#') Home
+        li:         a(href='#') About
+        li:         a(href='#') Contact
+       
+      h3.text-muted <%= fullname %>
+       
+    .jumbotron
+      h1      'Allo, 'Allo!
+      p.lead  Always a pleasure scaffolding your apps.
+      p:      a.btn.btn-lg.btn-success(href='#') Splendid!
+       
+    .row.marketing
+      .col-lg-6
+         
+        h4 HTML5 Boilerplate
+        p  HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.<% if (includeSass) { %>
+        h4 Sass
+        p  Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.<% } else { %>
+        h4 Less
+        p  Less extends CSS with dynamic behavior such as variables, mixins, operations and functions.<% } %>
+        h4 Jade
+        p  Jade is a high performance template engine heavily influenced by Haml and implemented with JavaScript for node and browsers.
+        h4 Bootstrap
+        p  Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.<% if (includeFastclick) { %>
+        h4 Fastclick
+        p  FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers.<% } if (includeModernizr) { %>
+        h4 Modernizr
+        p  Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.<% } %>
+
+    .footer
+      p &hearts; from the Yeoman team &amp; <a href="http://dahdah.de/en/">Dahdah Design</a><% } else { %>
+  .hero-unit
+    h1 'Allo, 'Allo!
+    p You now have
+
+    ul
+      li HTML5 Boilerplate<% if (includeSass) { %>
+      li Sass<% } else { %>
+      li Less<% } %>
+      li Jade<% if (includeFastclick) { %>
+      li Fastclick<% } if (includeModernizr) { %>
+      li Modernizr<% } %>
+      li Normalize.css<% } %>
+
+  include ./modules/test-module.jade

@@ -57,6 +57,10 @@ module.exports = yeoman.generators.Base.extend({
         value: 'includeJade',
         checked: false
       }, {
+        name: 'Modular Templates',
+        value: 'includeModules',
+        checked: false
+      }, {
         name: 'Bootstrap',
         value: 'includeBootstrap',
         checked: false
@@ -97,6 +101,7 @@ module.exports = yeoman.generators.Base.extend({
       // we change a bit this way of doing to automatically do this in the self.prompt() method.
       this.includeSass = hasFeature('includeSass');
       this.includeJade = hasFeature('includeJade');
+      this.includeModules = hasFeature('includeModules');
       this.includeBootstrap = hasFeature('includeBootstrap');
       this.includeModernizr = hasFeature('includeModernizr');
       this.includeFastclick = hasFeature('includeFastclick');
@@ -190,20 +195,41 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writeIndex: function () {
+
       if (this.includeJade) {
-        this.copy('index.jade', 'app/index.jade');
+        var html = '.jade';
       } else {
-        this.copy('index.html', 'app/index.html');
+        var html = '.html';
+      }
+
+      if (this.includeModules) {
+        this.copy('modules/index-modular' + html, 'app/index' + html);
+      } else {
+        this.copy('index'                 + html, 'app/index' + html);
       }
     },
 
     app: function () {
+
       this.mkdir('app');
       this.mkdir('app/scripts');
       this.mkdir('app/styles');
       this.mkdir('app/images');
       this.mkdir('app/fonts');
       this.copy('main.js', 'app/scripts/main.js');
+
+      if (this.includeModules) {
+        if (this.includeJade) {
+          var html = '.jade';
+        } else {
+          var html = '.html';
+        }
+      
+        this.copy('modules/include-header' + html, 'app/includes/header' + html);
+        this.copy('modules/include-footer' + html, 'app/includes/footer' + html);
+        this.copy('modules/layout-default' + html, 'app/layouts/default' + html);
+        this.copy('modules/module-example' + html, 'app/modules/example' + html);
+      }
     }
   },
 
@@ -243,7 +269,7 @@ module.exports = yeoman.generators.Base.extend({
         directory: 'bower_components',
         exclude: ['bootstrap/dist', 'bootstrap-sass', 'bootstrap.js'],
         ignorePath: /^(\.\.\/)*\.\./,
-        src: 'app/index.' + html
+        src: 'app/**/*.' + html
       });
 
       // wire Bower packages to .scss/.less
