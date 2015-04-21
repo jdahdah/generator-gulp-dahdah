@@ -109,7 +109,7 @@ gulp.task('extras', function () {
 
 gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', [<% if (includeJade) { %>'views', <% } %>'styles', 'fonts'], function () {
+gulp.task('serve', [<% if (includeJade || includeModules) { %>'views', <% } %>'styles', 'fonts'], function () {
   browserSync({
     notify: false,
     port: 9000,
