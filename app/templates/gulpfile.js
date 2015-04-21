@@ -53,18 +53,18 @@ gulp.task('jshint', function () {
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
-<% if (includeJade) { %>gulp.task('views', function () {
-  return gulp.src('app/*.jade')
+<% if (includeJade || includeModules) { %>gulp.task('views', function () {
+  <% if (includeJade) { %>return gulp.src('app/**/*.jade')<% } else { %>return gulp.src('app/**/*.html')<% } %>
     .pipe($.plumber(function(error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
       gutil.beep();
       this.emit('end');
     }))
-    .pipe($.jade({pretty: true}))
+    <% if (includeJade) { %>.pipe($.jade({pretty: true, basedir: 'app/'}))<% } else { %>.pipe($.nunjucksHtml({searchPaths: ['app/']}))<% } %>
     .pipe(gulp.dest('.tmp'));
 });<% } %>
 
-gulp.task('html', [<% if (includeJade) { %>'views', <% } %>'styles'], function () {
+gulp.task('html', [<% if (includeJade || includeModules) { %>'views', <% } %>'styles'], function () {
   var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
   <% if (includeJade) { %>return gulp.src(['app/*.html', '.tmp/*.html'])<% } else { %>return gulp.src('app/*.html')<% } %>
@@ -127,13 +127,13 @@ gulp.task('serve', [<% if (includeJade) { %>'views', <% } %>'styles', 'fonts'], 
   // watch for changes
   gulp.watch([
     'app/*.html',
-    <% if (includeJade) { %>'.tmp/*.html',<% } %>
+    <% if (includeJade || includeModules){ %>'.tmp/*.html',<% } %>
     'app/scripts/**/*.js',
     'app/images/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
-  <% if (includeJade) { %>gulp.watch('app/**/*.jade', ['views', reload]);<% } %>
+  <% if (includeJade) { %>gulp.watch('app/**/*.jade', ['views']);<% } else if (!includeJade && includeModules) { %>gulp.watch('app/**/*.html', ['views']);<% } %>
   gulp.watch('app/styles/**/*.<%= includeSass ? 'scss' : 'less' %>', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);

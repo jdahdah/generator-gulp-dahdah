@@ -1,7 +1,7 @@
 <!doctype html>
 <html<% if (includeModernizr) { %> class="no-js"<% } %> lang="">
   <head>
-    @@include(./../includes/header.html)
+    {% include '/includes/header.html' %}
   </head>
   <body>
 
@@ -9,9 +9,9 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     
-    <!-- @@placeholder = content -->
+    {% block content %}
 
-    @@include(./../includes/footer.html)
+    {% include '/includes/footer.html' %}
 
   </body>
 </html>
