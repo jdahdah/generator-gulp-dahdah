@@ -16,7 +16,7 @@
     "gulp-jshint": "^1.9.2",<% if (!includeSass) { %>
     "gulp-less": "^3.0.0",<% } %>
     "gulp-load-plugins": "^0.8.1",
-    "gulp-minify-html": "^1.0.0",<% if (includeModules) && (!includeJade) { %>
+    "gulp-minify-html": "^1.0.0",<% if (includeModules && !includeJade) { %>
     "gulp-nunjucks-html": "^1.2.0",<% } %>
     "gulp-plumber": "^0.6.6",
     "gulp-postcss": "^5.0.0",<% if (includeSass) { %>
