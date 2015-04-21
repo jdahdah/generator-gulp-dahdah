@@ -57,7 +57,7 @@ module.exports = yeoman.generators.Base.extend({
         value: 'includeJade',
         checked: false
       }, {
-        name: 'Modular Templates',
+        name: 'Modular Templates (Jade or Nunjucks)',
         value: 'includeModules',
         checked: false
       }, {
