@@ -1,0 +1,16 @@
+mixin colorblock(name, followup)
+  if name
+    var foo= 'style="background-color: "' + #{name}
+
+  .hero-unit.macro-unit&attributes(attributes)= foo
+    p This is
+      if followup
+        | <b>exactly the same</b>
+      else
+        | a
+      | macro. The background color
+      if name
+      | is
+        = name
+      else
+      | has not been set this time.

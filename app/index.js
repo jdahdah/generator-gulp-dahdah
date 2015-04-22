@@ -220,15 +220,18 @@ module.exports = yeoman.generators.Base.extend({
 
       if (this.includeModules) {
         if (this.includeJade) {
-          var html = '.jade';
+          var html   = '.jade';
+          var mixins = 'mixin';
         } else {
           var html = '.html';
+          var mixins = 'macro';
         }
       
-        this.copy('modules/include-header' + html, 'app/includes/header' + html);
-        this.copy('modules/include-footer' + html, 'app/includes/footer' + html);
-        this.copy('modules/layout-default' + html, 'app/layouts/default' + html);
-        this.copy('modules/module-example' + html, 'app/modules/example' + html);
+        this.copy('modules/include-header'           + html, 'app/includes/header'          + html);
+        this.copy('modules/include-footer'           + html, 'app/includes/footer'          + html);
+        this.copy('modules/layout-default'           + html, 'app/layouts/default'          + html);
+        this.copy('modules/modules-example' + mixins + html, 'app/modules/example' + mixins + html);
+        this.copy('modules/modules-example-module'   + html, 'app/modules/example-module'   + html);
       }
     }
   },
