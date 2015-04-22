@@ -1,6 +1,9 @@
-{% macro color(name='not set', followup='') %}
-  <div class="hero-unit macro-unit"{% if name != 'not set' %} style="background-color: {{name}}"{% endif %}>
+{% macro colorblock(color='', followup='') %}
+
+  {# This macro generates a block with a background color and returns different text depending on whether it's defined as a follow-up or not. #}
+
+  <div class="module macro"{% if color %} style="background-color: {{color}}"{% endif %}>
     <p>This is {% if followup %}<b>exactly the same</b> {% else %}a {% endif %}macro.
-    The background color{% if name != 'not set' %} is '{{name}}'{% else %} has not been set this time{% endif %}.</p>
+       The background color{% if color %} is set as '{{color}}'{% else %} has not been set for this call{% endif %}.</p>
   </div>
 {% endmacro %}

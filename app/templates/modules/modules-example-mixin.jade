@@ -1,16 +1,18 @@
-mixin colorblock(name, followup)
-  if name
-    var foo= 'style="background-color: "' + #{name}
+mixin colorblock(color, followup)
 
-  .hero-unit.macro-unit&attributes(attributes)= foo
-    p This is
-      if followup
-        | <b>exactly the same</b>
-      else
-        | a
-      | macro. The background color
-      if name
-      | is
-        = name
-      else
-      | has not been set this time.
+  // This mixin generates a block with a background color and returns text depending on whether it's defined as a follow-up or not.
+
+  - if ((typeof(color) !== 'undefined') && color !== '')
+    - var bg = 'background-color: ' + color
+    - var followuptext = 'is set as \'' + color + '\''
+  - else
+    - var followuptext = 'has not been set for this call'
+
+  - if ((typeof(followup) !== 'undefined') && followup !== false)
+    - var text = '<b>exactly the same</b>'
+  - else
+    - var text = 'a'
+
+  .module.macro(style=bg)
+    p This is !{text} mixin. The background color #{followuptext}.
+

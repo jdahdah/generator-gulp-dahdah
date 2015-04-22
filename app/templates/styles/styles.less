@@ -18,6 +18,8 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  -moz-osx-font-smoothing: grayscale;  // better firefox font rendering
+  -webkit-font-smoothing: antialiased; // better webkit font rendering
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -93,17 +95,56 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
-}<% } else { %>// bower:less
+}
+<% if (includeModules) { %>
+.modules {
+  .clearfix();
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 21px;
+  width: 100%;
+  .module {
+    background-color: #eee;
+    border-radius: 6px;
+    margin: 0 0 30px 0;
+    padding: 15px 15px 5px;
+  }
+  > p {
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  .macro {
+    clear: both;
+    float: left;
+    margin: 0 0 10px;
+    min-height: 130px;
+    padding: 15px;
+    width: calc(~"50% - 5px");
+    &:nth-of-type(odd) {
+      clear: none;
+      float: right;
+    }
+  }
+}<% } %>
+<% } else { %>// bower:less
 // endbower
 
 body {
   background: @body-background;
-  font-family: @font-family-sans-serif;
   color: @text-color;
+  font-family: @font-family-sans-serif;
+  -moz-osx-font-smoothing: grayscale;  // better firefox font rendering
+  -webkit-font-smoothing: antialiased; // better webkit font rendering
+}
+
+code {
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 4px 6px;
 }
 
 .hero-unit {
-  margin: 50px auto 0 auto;
+  margin: 30px auto 0 auto;
   width: 300px;
   font-size: 18px;
   font-weight: 200;
@@ -123,4 +164,36 @@ body {
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
+}
+
+<% if (includeModules) { %>.modules {
+  .clearfix();
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 21px;
+  margin: 30px auto;
+  width: 420px;
+  .module {
+    background-color: #eee;
+    border-radius: 6px;
+    margin: 0 0 30px 0;
+    padding: 15px;
+  }
+  > p {
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  .macro {
+    clear: both;
+    float: left;
+    margin: 0 0 10px;
+    min-height: 100px;
+    padding: 5px 15px;
+    width: calc(~"50% - 35px");
+    &:nth-of-type(odd) {
+      clear: none;
+      float: right;
+    }
+  }
 }<% } %>
+<% } %>

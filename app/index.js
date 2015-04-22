@@ -221,10 +221,10 @@ module.exports = yeoman.generators.Base.extend({
       if (this.includeModules) {
         if (this.includeJade) {
           var html   = '.jade';
-          var mixins = 'mixin';
+          var mixins = '-mixin';
         } else {
           var html = '.html';
-          var mixins = 'macro';
+          var mixins = '-macro';
         }
       
         this.copy('modules/include-header'           + html, 'app/includes/header'          + html);
