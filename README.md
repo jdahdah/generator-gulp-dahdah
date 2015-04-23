@@ -13,12 +13,13 @@ Please see our [gulpfile.js](app/templates/gulpfile.js) for up to date informati
 
 Features exclusive to this modified version are shown **in bold**.
 
-* **CSS-Preprocessing with Less or Sass**
-* **Optional: Use Jade instead of plain HTML**
+* **CSS-Preprocessing with [Less](http://lesscss.org) or [Sass](http://sass-lang.com)**
+* **Optional: Use [Jade](http://jade-lang.com) instead of plain HTML**
 * **Optional: Modular template system for DRY-friendly HTML with example uses (native Jade or HTML with [Nunjucks](http://mozilla.github.io/nunjucks/))**
+* **Optional: Includes full Less version of Bootstrap in addition to Sass**
 * **Optional: Automatically include useful extras like [normalize.css](https://github.com/necolas/normalize.css/), [Fastclick](https://github.com/ftlabs/fastclick) and [Modernizr](http://modernizr.com)**
-* **Built-in support for the Jade Markdown filter**
 * **Optional: Automagically remove any unused CSS from your production builds with [UnCSS](https://github.com/giakki/uncss) (awesome for removing framework bloat)**
+* **Built-in support for the Jade [Markdown](http://daringfireball.net/projects/markdown/) filter**
 * CSS Autoprefixing
 * Built-in preview server with BrowserSync
 * Automagically compile Sass with [libsass](http://libsass.org)
@@ -45,6 +46,7 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
 - Run `gulp serve` to preview and watch for changes
 - Run `bower install --save <package>` to install frontend dependencies
 - Run `gulp` to build your webapp for production
+- Run `gulp serve:dist` to check your production build
 
 
 ## Docs
