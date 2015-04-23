@@ -18,6 +18,7 @@ Features exclusive to this modified version are shown **in bold**.
 * **Optional: Modular template system for DRY-friendly HTML with example uses (native Jade or HTML with [Nunjucks](http://mozilla.github.io/nunjucks/))**
 * **Optional: Automatically include useful extras like [normalize.css](https://github.com/necolas/normalize.css/), [Fastclick](https://github.com/ftlabs/fastclick) and [Modernizr](http://modernizr.com)**
 * **Built-in support for the Jade Markdown filter**
+* **Optional: Automagically remove any unused CSS from your production builds with [UnCSS](https://github.com/giakki/uncss) (awesome for removing framework bloat)**
 * CSS Autoprefixing
 * Built-in preview server with BrowserSync
 * Automagically compile Sass with [libsass](http://libsass.org)

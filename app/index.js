@@ -69,6 +69,10 @@ module.exports = yeoman.generators.Base.extend({
         value: 'includeFastclick',
         checked: true
       }, {
+        name: 'Uncss',
+        value: 'includeUncss',
+        checked: false
+      }, {
         name: 'Modernizr',
         value: 'includeModernizr',
         checked: true
@@ -103,6 +107,7 @@ module.exports = yeoman.generators.Base.extend({
       this.includeJade = hasFeature('includeJade');
       this.includeModules = hasFeature('includeModules');
       this.includeBootstrap = hasFeature('includeBootstrap');
+      this.includeUncss = hasFeature('includeUncss');
       this.includeModernizr = hasFeature('includeModernizr');
       this.includeFastclick = hasFeature('includeFastclick');
 

@@ -69,8 +69,8 @@ gulp.task('html', [<% if (includeJade || includeModules) { %>'views', <% } %>'st
 
   <% if (includeJade || includeModules) { %>return gulp.src(['app/*.html', '.tmp/*.html'])<% } else { %>return gulp.src('app/*.html')<% } %>
     .pipe(assets)
-    .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.csso()))
+    .pipe($.if('*.js', $.uglify()))<% if (!includeUncss) { %>
+    .pipe($.if('*.css', $.csso()))<% } %>
     .pipe(assets.restore())
     .pipe($.useref())
     .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
@@ -106,7 +106,19 @@ gulp.task('extras', function () {
     dot: true
   }).pipe(gulp.dest('dist'));
 });
-
+<% if (includeUncss) { %>
+gulp.task('uncss', ['html'], function () {
+  // list your selectors here if UnCSS should ignore them:
+  var ignoreCSS = "[]"
+  return gulp.src('dist/styles/main.css')
+    .pipe($.uncss({
+      html: ['dist/*.html'],
+      ignore: ignoreCSS
+    }))
+    .pipe($.csso())
+    .pipe(gulp.dest('dist/styles'));
+});
+<% } %>
 gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', [<% if (includeJade || includeModules) { %>'views', <% } %>'styles', 'fonts'], function () {
@@ -168,7 +180,7 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['jshint', <% if (includeJade || includeModules) { %>'views', <% } %>'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('build', ['jshint', <% if (includeJade || includeModules) { %>'views', <% } %>'html', 'images', 'fonts', 'extras'<% if (includeUncss) { %>, 'uncss'<% } %>], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

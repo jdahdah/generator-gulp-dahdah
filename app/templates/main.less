@@ -2,6 +2,12 @@
 // File purpose: Import <% if (includeBootstrap) { %>original Bootstrap framework and then provide overrides for original .less files where necessary<% } else { %>all project .less files<% } %>
 // Author: <%= author %>
 
+<% if (includeUncss) { %>
+// CAUTION: you have chosen to include UnCSS with this project.
+// If anything breaks in your final build, you might need to
+// tell UnCSS to ignore certain selectors or stylesheets in your gulpfile.
+// Read more about it here: https://www.npmjs.com/package/gulp-uncss
+<% } %>
 
 // bower:less
 // endbower
