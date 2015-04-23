@@ -3,9 +3,9 @@
 var path = require('path');
 var helpers = require('yeoman-generator').test;
 
-describe('Gulp webapp generator: sass feature', function () {
+describe('Gulp webapp generator: styles feature', function () {
   beforeEach(function (done) {
-    helpers.testDirectory(path.join(__dirname, 'sass'), function (err) {
+    helpers.testDirectory(path.join(__dirname, 'styles'), function (err) {
       if (err) {
         done(err);
         return;
@@ -42,7 +42,7 @@ describe('Gulp webapp generator: sass feature', function () {
     assertFileExists(this.webapp, 'scss', ['includeSass'], done);
   });
 
-  it('should create css file', function (done) {
+  it('should create less file', function (done) {
     assertFileExists(this.webapp, 'less', [], done);
   });
 });
