@@ -52,9 +52,9 @@ gulp.task('jshint', function () {
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
-
-<% if (includeJade || includeModules) { %>gulp.task('views', function () {
-  <% if (includeJade) { %>return gulp.src('app/**/*.jade')<% } else { %>return gulp.src('app/**/*.html')<% } %>
+<% if (includeJade || includeModules) { %>
+gulp.task('views', function () {
+  <% if (includeJade) { %>return gulp.src('app/*.jade')<% } else { %>return gulp.src('app/*.html')<% } %>
     .pipe($.plumber(function(error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
       gutil.beep();
@@ -62,8 +62,8 @@ gulp.task('jshint', function () {
     }))
     <% if (includeJade) { %>.pipe($.jade({pretty: true, basedir: 'app/'}))<% } else { %>.pipe($.nunjucksHtml({searchPaths: ['app/']}))<% } %>
     .pipe(gulp.dest('.tmp'));
-});<% } %>
-
+});
+<% } %>
 gulp.task('html', [<% if (includeJade || includeModules) { %>'views', <% } %>'styles'], function () {
   var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
@@ -138,8 +138,8 @@ gulp.task('serve', [<% if (includeJade || includeModules) { %>'views', <% } %>'
 
   // watch for changes
   gulp.watch([
-    'app/*.html',
-    <% if (includeJade || includeModules){ %>'.tmp/*.html',<% } %>
+    'app/*.html',<% if (includeJade || includeModules){ %>
+    '.tmp/*.html',<% } %>
     'app/scripts/**/*.js',
     'app/images/**/*',
     '.tmp/fonts/**/*'
