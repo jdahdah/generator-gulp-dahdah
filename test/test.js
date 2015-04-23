@@ -11,7 +11,7 @@ describe('Gulp webapp generator test', function () {
         return;
       }
 
-      this.webapp = helpers.createGenerator('gulp-webapp:app', [
+      this.webapp = helpers.createGenerator('gulp-dahdah:app', [
         '../../app', [
           helpers.createDummyGenerator(),
           'mocha:app'
