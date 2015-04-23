@@ -1,6 +1,8 @@
-# Web app generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-gulp-webapp.svg?branch=master)](http://travis-ci.org/yeoman/generator-gulp-webapp)
+# Dahdah Design web app generator [![Build Status](https://secure.travis-ci.org/jdahdah/generator-gulp-dahdah.svg?branch=master)](http://travis-ci.org/jdahdah/generator-gulp-dahdah)
 
 > [Yeoman](http://yeoman.io) generator that scaffolds out a front-end web app using [gulp](http://gulpjs.com/) for the build process
+
+This is a strongly modified fork of the original [yeoman/generator-gulp-webapp](https://github.com/yeoman/generator-gulp-webapp) that includes some nice extra features. It's a work-in-progress and not quite ready for production use, but feel free to play around with it and provide [feedback](https://github.com/jdahdah/generator-gulp-dahdah/issues). Brought to you by [Dahdah Design](http://dahdah.de/en/).
 
 ![](screenshot.png)
 
@@ -9,6 +11,13 @@
 
 Please see our [gulpfile.js](app/templates/gulpfile.js) for up to date information on what we support.
 
+Features exclusive to this modified version are shown **in bold**.
+
+* **CSS-Preprocessing with Less or Sass**
+* **Optional: Use Jade instead of plain HTML**
+* **Optional: Modular template system for DRY-friendly HTML with example uses (native Jade or HTML with [Nunjucks](http://mozilla.github.io/nunjucks/))**
+* **Optional: Automatically include useful extras like [normalize.css](https://github.com/necolas/normalize.css/), [Fastclick](https://github.com/ftlabs/fastclick) and [Modernizr](http://modernizr.com)**
+* **Built-in support for the Jade Markdown filter**
 * CSS Autoprefixing
 * Built-in preview server with BrowserSync
 * Automagically compile Sass with [libsass](http://libsass.org)
@@ -30,8 +39,8 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
 ## Getting Started
 
 - Install dependencies: `npm install --global yo bower`
-- Install the generator: `npm install --global generator-gulp-webapp`
-- Run `yo gulp-webapp` to scaffold your webapp
+- Install the generator: `npm install --global https://github.com/jdahdah/generator-gulp-dahdah`
+- Run `yo gulp-dahdah` to scaffold your webapp
 - Run `gulp serve` to preview and watch for changes
 - Run `bower install --save <package>` to install frontend dependencies
 - Run `gulp` to build your webapp for production

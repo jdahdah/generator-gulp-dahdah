@@ -22,6 +22,9 @@
     "app",
     "front-end",
     "h5bp",
+    "jade",
+    "nunjucks",
+    "fastclick",
     "modernizr",
     "jquery",
     "gulp"
