@@ -43,6 +43,6 @@ describe('Gulp webapp generator: sass feature', function () {
   });
 
   it('should create css file', function (done) {
-    assertFileExists(this.webapp, 'css', [], done);
+    assertFileExists(this.webapp, 'less', [], done);
   });
 });
