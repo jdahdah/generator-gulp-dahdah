@@ -67,7 +67,7 @@ gulp.task('jshint', function () {
 gulp.task('html', [<% if (includeJade || includeModules) { %>'views', <% } %>'styles'], function () {
   var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
-  <% if (includeJade) { %>return gulp.src(['app/*.html', '.tmp/*.html'])<% } else { %>return gulp.src('app/*.html')<% } %>
+  <% if (includeJade || includeModules) { %>return gulp.src(['app/*.html', '.tmp/*.html'])<% } else { %>return gulp.src('app/*.html')<% } %>
     .pipe(assets)
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
