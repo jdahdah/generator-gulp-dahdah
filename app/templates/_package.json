@@ -28,6 +28,7 @@
     "gulp-util": "^3.0.3",
     "jshint-stylish": "^1.0.0",
     "main-bower-files": "^2.5.0",
+    "marked": "^0.3.3",
     "opn": "^1.0.1",
     "wiredep": "^2.2.2"
   }
