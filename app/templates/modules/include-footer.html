@@ -7,6 +7,10 @@
   r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
   ga('create','UA-XXXXX-X');ga('send','pageview');
 </script>
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<!-- endbower -->
+<!-- endbuild -->
 <% if (includeBootstrap) {
   var bs = '/bower_components/';
 
@@ -30,10 +34,6 @@
 <script src="<%= bs %>tab.js"></script>
 <!-- endbuild -->
 <% } %>
-<!-- build:js scripts/vendor.js -->
-<!-- bower:js -->
-<!-- endbower -->
-<!-- endbuild -->
 
 <!-- build:js scripts/main.js -->
 <script src="scripts/main.js"></script>

@@ -7,6 +7,10 @@ script.
   e.src='//www.google-analytics.com/analytics.js';
   r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
   ga('create','UA-XXXXX-X');ga('send','pageview');
+// build:js scripts/vendor.js
+// bower:js
+// endbower
+// endbuild
 <% if (includeBootstrap) {
   var bs = '/bower_components/';
 
@@ -30,10 +34,6 @@ script(src='<%= bs %>collapse.js')
 script(src='<%= bs %>tab.js')
 // endbuild
 <% } %>
-// build:js scripts/vendor.js
-// bower:js
-// endbower
-// endbuild
 
 // build:js scripts/main.js
 script(src='scripts/main.js')
