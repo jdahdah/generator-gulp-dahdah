@@ -11,26 +11,19 @@ var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
-gulp.task('styles', function () {<% if (includeSass) { %>
-  return gulp.src('app/styles/main.scss')
+gulp.task('styles', function () {
+  return gulp.src('app/styles/main.<% if (includeSass) { %>scss<% } else { %>less<% } %>')
     .pipe($.plumber(function(error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
       gutil.beep();
       this.emit('end');
     }))
-    .pipe($.sourcemaps.init())
+    .pipe($.sourcemaps.init())<% if (includeSass) { %>
     .pipe($.sass({
       outputStyle: 'nested', // libsass doesn't support expanded yet
       precision: 10,
       includePaths: ['.']
     }))<% } else { %>
-  return gulp.src('app/styles/main.less')
-    .pipe($.plumber(function(error) {
-      gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
-      gutil.beep();
-      this.emit('end');
-    }))
-    .pipe($.sourcemaps.init())
     .pipe($.less())<% } %>
     .pipe($.postcss([
       require('autoprefixer-core')({browsers: ['last 3 versions']})
