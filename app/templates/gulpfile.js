@@ -40,18 +40,23 @@ gulp.task('styles', function () {<% if (includeSass) { %>
     .pipe(reload({stream: true}));
 });
 
-gulp.task('jshint', function () {
-  return gulp.src('app/scripts/**/*.js')
-    .pipe($.plumber(function(error) {
-      gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
-      gutil.beep();
-      this.emit('end');
-    }))
-    .pipe(reload({stream: true, once: true}))
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'))
-    .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
-});
+function jshint(files) {
+  return function () {
+    return gulp.src(files)
+      .pipe($.plumber(function(error) {
+        gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
+        gutil.beep();
+        this.emit('end');
+       }))
+      .pipe(reload({stream: true, once: true}))
+      .pipe($.jshint())
+      .pipe($.jshint.reporter('jshint-stylish'))
+      .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+  };
+}
+
+gulp.task('jshint', jshint('app/scripts/**/*.js'));
+gulp.task('jshint:test', jshint('test/spec/**/*.js'));
 <% if (includeJade || includeModules) { %>
 gulp.task('views', function () {
   <% if (includeJade) { %>return gulp.src('app/*.jade')<% } else { %>return gulp.src('app/*.html')<% } %>
@@ -133,9 +138,6 @@ gulp.task('serve', [<% if (includeJade || includeModules) { %>'views', <% } %>'
     }
   });
 
-  // wait for browserSync to start before running jshint
-  gulp.start('jshint');
-
   // watch for changes
   gulp.watch([
     'app/*.html',<% if (includeJade || includeModules){ %>
@@ -159,6 +161,24 @@ gulp.task('serve:dist', function () {
       baseDir: ['dist']
     }
   });
+});
+
+gulp.task('serve:test', function () {
+  browserSync({
+    notify: false,
+    open: false,
+    port: 9000,
+    ui: false,
+    server: {
+      baseDir: 'test'
+    }
+  });
+
+  gulp.watch([
+    'test/spec/**/*.js',
+  ]).on('change', reload);
+
+  gulp.watch('test/spec/**/*.js', ['jshint:test']);
 });
 
 // inject bower components
