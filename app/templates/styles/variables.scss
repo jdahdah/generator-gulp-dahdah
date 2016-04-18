@@ -15,4 +15,4 @@ $text-color:              #333;
 <% } %>
 
 <% if (includeBootstrap) { %>// NOTE: Paste content of bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss below this line to start customizing Bootstrap.
-// You may need to adjust the font path if you are experiencing issues.<% } %>
+// Remove any !default declarations. You may also need to adjust the font path if you are experiencing issues.<% } %>
