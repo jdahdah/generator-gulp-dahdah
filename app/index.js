@@ -254,11 +254,11 @@ module.exports = yeoman.generators.Base.extend({
           var mixins = '-macro';
         }
       
-        this.copy('modules/include-header'           + html, 'app/includes/header'          + html);
-        this.copy('modules/include-footer'           + html, 'app/includes/footer'          + html);
-        this.copy('modules/layout-default'           + html, 'app/layouts/default'          + html);
-        this.copy('modules/modules-example' + mixins + html, 'app/modules/example' + mixins + html);
-        this.copy('modules/modules-example-module'   + html, 'app/modules/example-module'   + html);
+        this.copy('modules/include-head'             + html, 'app/_includes/head'            + html);
+        this.copy('modules/include-foot'             + html, 'app/_includes/foot'            + html);
+        this.copy('modules/layout-default'           + html, 'app/_layouts/default'          + html);
+        this.copy('modules/modules-example' + mixins + html, 'app/_modules/example' + mixins + html);
+        this.copy('modules/modules-example-module'   + html, 'app/_modules/example-module'   + html);
       }
     }
   },

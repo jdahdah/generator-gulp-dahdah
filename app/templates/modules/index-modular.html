@@ -1,4 +1,4 @@
-{% extends '/layouts/default.html' %}
+{% extends '/_layouts/default.html' %}
 
 {% block content %}
   <% if (includeBootstrap) { %>
@@ -62,7 +62,7 @@
 
     {# Modules help you keep your template directory clean. A recommended approach would be to split each logical,
        non-repeating unit of your design into its own .html module and include it from this file. #}
-    {% include '/modules/example-module.html' %}
+    {% include '/_modules/example-module.html' %}
     <% } %>
 
 {% endblock %}
