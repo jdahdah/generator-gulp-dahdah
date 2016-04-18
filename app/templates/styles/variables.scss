@@ -14,4 +14,5 @@ $font-family-sans-serif-italic:   "";
 $text-color:              #333;
 <% } %>
 
-<% if (includeBootstrap) { %>// NOTE: Paste content of bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss below this line to start customizing Bootstrap<% } %>
+<% if (includeBootstrap) { %>// NOTE: Paste content of bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss below this line to start customizing Bootstrap.
+// You may need to adjust the font path if you are experiencing issues.<% } %>
