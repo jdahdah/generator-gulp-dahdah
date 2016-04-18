@@ -9,12 +9,13 @@
 // Read more about it here: https://www.npmjs.com/package/gulp-uncss
 <% } %>
 
-// bower:scss
-// endbower
 
 
 // All variables required for project
 @import "variables";
+
+// bower:scss
+// endbower
 
 // Custom mixins for site-wide use
 @import "mixins";
