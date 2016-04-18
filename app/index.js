@@ -141,10 +141,31 @@ module.exports = yeoman.generators.Base.extend({
       };
 
       if (this.includeBootstrap) {
-        var bs = 'bootstrap' + (this.includeSass ? '-sass-official' : '');
-        bower.dependencies[bs] = '~3.3.1';
-      } else {
-        bower.dependencies.jquery = '~2.1.1';
+        if (this.includeSass) {
+          bower.dependencies['bootstrap-sass'] = '~3.3.6';
+          bower.overrides = {
+            'bootstrap-sass': {
+              'main': [
+              'assets/stylesheets/_bootstrap.scss',
+              'assets/fonts/bootstrap/*',
+              'assets/javascripts/bootstrap.js'
+              ]
+            }
+          };
+        } else {
+          bower.dependencies['bootstrap'] = '~3.3.6';
+          bower.overrides = {
+            'bootstrap': {
+              'main': [
+              'less/bootstrap.less',
+              'dist/js/bootstrap.js',
+              'dist/fonts/*'
+              ]
+            }
+          };
+        }
+      } else if (this.includeJQuery) {
+        bower.dependencies['jquery'] = '~2.1.1';
         bower.dependencies['normalize-css'] = '~3.0.2';
       }
 
