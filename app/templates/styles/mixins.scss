@@ -30,8 +30,25 @@
 
 // Vertical center
 @mixin vertical-center {
+  position: absolute;
   top: 50%;
   transform: translate(0, -50%);
+}
+
+// Full center
+@mixin full-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Reset center
+@mixin reset-center {
+  left: auto;
+  position: relative;
+  top: auto;
+  transform: translate(0, 0);
 }
 
 
