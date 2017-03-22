@@ -1,0 +1,83 @@
+// Project: <%= fullname %> (<%= shortname %>)
+// File purpose: Project-specific mixins<% if (includeBootstrap) { %> in addition to original bootstrap mixins<% } %>
+// Author: <%= author %>
+
+
+// Tester class for debugging
+// Can take any CSS color values including names. Defaults to red when nothing is specified.
+@mixin tester($color: red) {
+  background: transparentize($color, 0.5);
+}
+
+<% if (legacyBootstrap) { %>// Remove gutter from Bootstrap columns
+@mixin no-gutters {
+  margin-left: 0;
+  margin-right: 0;
+  > [class^="col-"],
+  > [class*=" col-"] {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.no-gutters {
+  @include no-gutters;
+}
+
+<% } %>
+
+
+// Vertical center
+@mixin vertical-center {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+// Full center
+@mixin full-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Reset center
+@mixin reset-center {
+  left: auto;
+  position: relative;
+  top: auto;
+  transform: translate(0, 0);
+}
+
+
+// Smooth hovers
+@mixin smoothhover($property: all 250ms) {
+  transition: $property;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// Smooth hovers (opacity change only)
+@mixin smoothhover-opacity($property: $opacityhover) {
+  transition: opacity 250ms;
+  &:hover {
+    opacity: $property;
+    text-decoration: none;
+  }
+}
+
+<% if (!includeBootstrap) { %>
+// Clear floats
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}<% } %>
+

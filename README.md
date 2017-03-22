@@ -1,6 +1,8 @@
-# Web app generator [![Build Status](https://secure.travis-ci.org/jdahdah/generator-gulp-dahdah.svg?branch=update2017)](http://travis-ci.org/yeoman/generator-gulp-dahdah) [![Gitter](https://img.shields.io/badge/Gitter-Join_the_Yeoman_chat_%E2%86%92-00d06f.svg)](https://gitter.im/yeoman/yeoman)
+# Web app generator [![Build Status](https://secure.travis-ci.org/jdahdah/generator-gulp-dahdah.svg?branch=update2017)](http://travis-ci.org/jdahdah/generator-gulp-dahdah) [![Gitter](https://img.shields.io/badge/Gitter-Join_the_Yeoman_chat_%E2%86%92-00d06f.svg)](https://gitter.im/yeoman/yeoman)
 
 > [Yeoman](http://yeoman.io) generator that scaffolds out a front-end web app using [gulp](http://gulpjs.com/) for the build process
+
+This is a strongly modified fork of the original [yeoman/generator-webapp](https://github.com/yeoman/generator-webapp) that includes some extra features that I frequently use in new projects. Feel free to use it in your production. Brought to you by [Dahdah Design](http://dahdah.de/en/).
 
 ![](screenshot.png)
 
@@ -9,6 +11,13 @@
 
 Please see our [gulpfile](app/templates/gulpfile.js) for up to date information on what we support.
 
+Features exclusive to this modified version are shown **in bold**.
+
+* **Optional: Use [Pug](https://pugjs.org) (formerly Jade) instead of plain HTML**
+* **Optional: Modular template system for DRY-friendly HTML with example uses (native Pug)**
+* **Optional: Automatically include useful extras like [normalize.css](https://github.com/necolas/normalize.css/), [Fastclick](https://github.com/ftlabs/fastclick), [viewportUnitsBuggyfill](https://github.com/rodneyrehm/viewport-units-buggyfill) and [Modernizr](http://modernizr.com)**
+* **Optional: Automagically remove any unused CSS from your production builds with [UnCSS](https://github.com/giakki/uncss) (awesome for removing framework bloat)**
+* **Built-in support for the Pug [Markdown](http://daringfireball.net/projects/markdown/) filter**
 * enable [ES2015 features](https://babeljs.io/docs/learn-es2015/) using [Babel](https://babeljs.io)
 * CSS Autoprefixing
 * Built-in preview server with BrowserSync
@@ -30,8 +39,10 @@ If your favorite feature is missing and you really need Ruby Sass, you can alway
 
 ## Getting Started
 
-- Install: `npm install --global yo gulp-cli bower generator-webapp`
-- Run `yo webapp` to scaffold your webapp
+- Install: `npm install --global yo gulp-cli bower`
+- Install the generator: `npm install --global https://github.com/jdahdah/generator-gulp-dahdah`
+- Run `yo gulp-dahdah` to scaffold your webapp with npm, **or**
+  Run `yo gulp-dahdah --skip-install` and follow the on-screen instructions to scaffold with [Yarn](https://yarnpkg.com)
 - Run `gulp serve` to preview and watch for changes
 - Run `bower install --save <package>` to install frontend dependencies
 - Run `gulp serve:test` to run the tests in the browser

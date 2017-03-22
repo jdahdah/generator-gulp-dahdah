@@ -1,0 +1,18 @@
+mixin colorblock(color, followup)
+
+  // This mixin generates a block with a background color and returns text depending on whether it's defined as a follow-up or not.
+
+  - if ((typeof(color) !== 'undefined') && color !== '')
+    - var bg = 'background-color: ' + color
+    - var followuptext = 'is set as \'' + color + '\''
+  - else
+    - var followuptext = 'has not been set for this call'
+
+  - if ((typeof(followup) !== 'undefined') && followup !== false)
+    - var text = '<b>exactly the same</b>'
+  - else
+    - var text = 'a'
+
+  .module.mixin(style=bg)
+    p This is !{text} mixin. The background color #{followuptext}.
+

@@ -1,3 +1,12 @@
+// Project: <%= fullname %> (<%= shortname %>)
+// File purpose: Main stylesheet
+// Author: <%= author %>
+
+// Note: Anything that doesn't fit into one of the other files goes here
+
+<% if (legacyBootstrap) { %>$icon-font-path: '../fonts/';
+<% } %>
+
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -94,28 +103,34 @@ html {
 }
 
 body {
-  background: #fafafa;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #333;
+  background: $body-background;
+  color: $text-color;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;  // better firefox font rendering
+  -webkit-font-smoothing: antialiased; // better webkit font rendering
+}
+
+code {
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 4px 6px;
 }
 
 .hero-unit {
   margin: 50px auto 0 auto;
-  width: 600px;
+  max-width: 600px;
   font-size: 18px;
   font-weight: 200;
   line-height: 30px;
   background-color: #eee;
   border-radius: 6px;
   padding: 60px;
+  h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
 }
-
-.hero-unit h1 {
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
-}
-
 .footer {
   max-width: 600px;
   margin: 0 auto;
@@ -123,47 +138,40 @@ body {
 <% } -%>
 
 <% if (includePug) { %>
+/* Pug Modules */
 .modules {
+  @include clearfix;
   font-weight: 200;<% if (!includeBootstrap) { %>
   font-size: 14px;
   line-height: 21px;
   margin: 20px auto;
-  max-width: 600px;<% } %>
-}
+  max-width: 600px;<% } %><% if (!includeBootstrap || legacyBootstrap) { %>
 
-.modules::after {
-  clear: both;
-  content: "";
-  display: block;
-}<% if (!includeBootstrap || legacyBootstrap) { %>
+  > p {    
+    margin-bottom: 30px;
+  }<% } %>
 
-.modules > p {
-  margin-bottom: 30px;
-}<% } %>
+  .module {
+    background-color: #eee;
+    border-radius: <% if (includeBootstrap && !legacyBootstrap) { %>0.3rem<% } else { %>6px<% } %>;
+    font-weight: 700;
+    margin: 0 0 <% if (includeBootstrap && !legacyBootstrap) { %>1rem<% } else { %>30px<% } %> 0;
+    padding: <% if (includeBootstrap && !legacyBootstrap) { %>1rem 1rem 0.25rem<% } else { %>15px<% if (legacyBootstrap) { %> 15px 5px<% }} %>;
+  }
 
-.modules .module {
-  background-color: #eee;
-  border-radius: <% if (includeBootstrap && !legacyBootstrap) { %>0.3rem<% } else { %>6px<% } %>;
-  font-weight: 700;
-  margin: 0 0 <% if (includeBootstrap && !legacyBootstrap) { %>1rem<% } else { %>30px<% } %> 0;
-  padding: <% if (includeBootstrap && !legacyBootstrap) { %>1rem 1rem 0.25rem<% } else { %>15px<% if (legacyBootstrap) { %> 15px 5px<% }} %>;
-}
-
-.modules .mixin {
-  clear: both;
-  float: left;
-  margin: 0 0 <% if (includeBootstrap && !legacyBootstrap) { %>0.5rem<% } else { %>10px<% } %>;
-  min-height: <% if (includeBootstrap && !legacyBootstrap) { %>11rem<% } else { %>130px<% } %>;
-  padding: <% if (includeBootstrap && !legacyBootstrap) { %>1rem<% } else { %>15px<% } %>;
-  width: calc(50% - <% if (includeBootstrap && !legacyBootstrap) { %>0.25rem<% } else { %>5px<% } %>);
-}
-
-.modules .mixin p {
-  margin: 0;
-}
-
-.modules .mixin:nth-of-type(odd) {    
-  clear: none;
-  float: right;
-}
-<% } -%>
+  .mixin {
+    clear: both;
+    float: left;
+    margin: 0 0 <% if (includeBootstrap && !legacyBootstrap) { %>0.5rem<% } else { %>10px<% } %>;
+    min-height: <% if (includeBootstrap && !legacyBootstrap) { %>11rem<% } else { %>130px<% } %>;
+    padding: <% if (includeBootstrap && !legacyBootstrap) { %>1rem<% } else { %>15px<% } %>;
+    width: calc(50% - <% if (includeBootstrap && !legacyBootstrap) { %>0.25rem<% } else { %>5px<% } %>);
+    p {
+      margin: 0;
+    }
+    &:nth-of-type(odd) {
+      clear: none;
+      float: right;
+    }
+  }
+}<% } -%>

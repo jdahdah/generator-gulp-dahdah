@@ -1,0 +1,26 @@
+// Project: <%= fullname %> 
+// Author: <%= author %> 
+
+// Built with the Dahdah Design Yeoman Generator by Jerome Dahdah 
+// Get a copy at https://github.com/jdahdah/generator-gulp-dahdah/ 
+
+meta(charset='utf-8')
+meta(name='description' content='')
+meta(name='viewport' content='width=device-width, initial-scale=1<% if (includeBootstrap && !legacyBootstrap) { %>, shrink-to-fit=no<% } %>')
+
+title <%= fullname %>
+// Place favicon.ico and apple-touch-icon.png in the root directory<% if (!includeSass) { %>
+
+// build:css styles/vendor.css
+// bower:css
+// endbower
+// endbuild<% } %>
+
+// build:css styles/main.css
+link(href='styles/main.css' rel='stylesheet')
+// endbuild
+<% if (includeModernizr) { %>
+// build:js scripts/vendor/modernizr.js
+script(src='/bower_components/modernizr/modernizr.js')
+// endbuild
+<% } %>

@@ -1,10 +1,10 @@
 {
-  "name": "generator-webapp",
+  "name": "generator-gulp-dahdah",
   "version": "2.4.1",
   "description": "Scaffold out a front-end web app",
   "license": "BSD-2-Clause",
-  "repository": "yeoman/generator-webapp",
-  "author": "The Yeoman Team",
+  "repository": "jdahdah/generator-gulp-dahdah",
+  "author": "Jerome Dahdah and the Yeoman Team",
   "main": "app/index.js",
   "engines": {
     "node": ">=4",
@@ -22,6 +22,9 @@
     "app",
     "front-end",
     "h5bp",
+    "jade",
+    "pug",
+    "nunjucks",
     "modernizr",
     "jquery",
     "gulp"
