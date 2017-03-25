@@ -1,0 +1,22 @@
+block config
+  include /_includes/config
+include /_includes/mixins
+
+doctype html
+html(lang='')<% if (includeModernizr) { %>.no-js<% } %>
+  head
+    include /_includes/head
+
+  body(class=bodyClass)
+
+    <!--[if IE]>
+    |   <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    include /_includes/header
+
+    block content
+
+    include /_includes/footer
+
+    include /_includes/foot-scripts

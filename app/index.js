@@ -55,7 +55,7 @@ module.exports = generators.Base.extend({
 
   prompting: function () {
     if (!this.options['skip-welcome-message']) {
-      this.log(yosay('\'Allo \'allo! Out of the box I include HTML5 Boilerplate, jQuery, and a gulpfile to build your app.'));
+      this.log(yosay('\'Allo \'allo! Out of the box I include HTML5 Boilerplate, jQuery, Normalize.css and a gulpfile.js to build your app.'));
     }
 
     var prompts = [{
@@ -67,9 +67,25 @@ module.exports = generators.Base.extend({
         value: 'includeSass',
         checked: true
       }, {
+        name: 'Pug',
+        value: 'includePug',
+        checked: false
+      }, {
         name: 'Bootstrap',
         value: 'includeBootstrap',
+        checked: false
+      }, {
+        name: 'Fastclick',
+        value: 'includeFastclick',
         checked: true
+      }, {
+        name: 'ViewportUnitsBuggyfill',
+        value: 'includeViewportFix',
+        checked: true
+      }, {
+        name: 'UnCSS',
+        value: 'includeUncss',
+        checked: false
       }, {
         name: 'Modernizr',
         value: 'includeModernizr',
@@ -97,6 +113,21 @@ module.exports = generators.Base.extend({
       when: function (answers) {
         return answers.features.indexOf('includeBootstrap') === -1;
       }
+    }, {
+      type: 'input',
+      name: 'shortname',
+      message: 'Project short name?',
+      default: this.appname
+    }, {
+      type: 'input',
+      name: 'fullname',
+      message: 'Project full name?',
+      default: this.appname
+    }, {
+      type: 'input',
+      name: 'author',
+      message: 'Author name? (That\'s you!)',
+      store: true
     }];
 
     return this.prompt(prompts).then(function (answers) {
@@ -109,10 +140,18 @@ module.exports = generators.Base.extend({
       // manually deal with the response, get back and store the results.
       // we change a bit this way of doing to automatically do this in the self.prompt() method.
       this.includeSass = hasFeature('includeSass');
+      this.includePug = hasFeature('includePug');
       this.includeBootstrap = hasFeature('includeBootstrap');
+      this.includeViewportFix = hasFeature('includeViewportFix');
+      this.includeUncss = hasFeature('includeUncss');
       this.includeModernizr = hasFeature('includeModernizr');
       this.legacyBootstrap = answers.legacyBootstrap;
       this.includeJQuery = answers.includeJQuery;
+      this.includeFastclick = hasFeature('includeFastclick');
+
+      this.shortname = answers.shortname;
+      this.fullname  = answers.fullname;
+      this.author    = answers.author;
 
     }.bind(this));
   },
@@ -127,6 +166,8 @@ module.exports = generators.Base.extend({
           name: this.pkg.name,
           version: this.pkg.version,
           includeSass: this.includeSass,
+          includePug: this.includePug,
+          includeUncss: this.includeUncss,
           includeBootstrap: this.includeBootstrap,
           legacyBootstrap: this.legacyBootstrap,
           includeBabel: this.options['babel'],
@@ -140,7 +181,12 @@ module.exports = generators.Base.extend({
         this.templatePath('_package.json'),
         this.destinationPath('package.json'),
         {
+          shortname: _s.slugify(this.shortname),
+          fullname: this.fullname,
+          author: this.author,
           includeSass: this.includeSass,
+          includePug: this.includePug,
+          includeUncss: this.includeUncss,
           includeBabel: this.options['babel'],
           includeJQuery: this.includeJQuery,
         }
@@ -166,7 +212,7 @@ module.exports = generators.Base.extend({
 
     bower: function () {
       var bowerJson = {
-        name: _s.slugify(this.appname),
+        name: _s.slugify(this.shortname),
         private: true,
         dependencies: {}
       };
@@ -182,7 +228,7 @@ module.exports = generators.Base.extend({
         if (this.legacyBootstrap) {
           if (this.includeSass) {
             bowerJson.dependencies = {
-              'bootstrap-sass': '~3.3.5'
+              'bootstrap-sass': '~3.3.6'
             };
             bowerJson.overrides = {
               'bootstrap-sass': {
@@ -195,7 +241,7 @@ module.exports = generators.Base.extend({
             };
           } else {
             bowerJson.dependencies = {
-              'bootstrap': '~3.3.5'
+              'bootstrap': '~3.3.6'
             };
             bowerJson.overrides = {
               'bootstrap': {
@@ -216,6 +262,18 @@ module.exports = generators.Base.extend({
 
       if (this.includeModernizr) {
         bowerJson.dependencies['modernizr'] = '~2.8.1';
+      }
+
+      if (this.includeFastclick) {
+        bowerJson.dependencies['fastclick'] = '~1.0.6';
+      }
+
+      if (this.includeViewportFix) {
+        bowerJson.dependencies['viewport-units-buggyfill'] = '~0.6.1';
+      }
+
+      if (!this.includeBootstrap) {
+        bowerJson.dependencies['normalize-css'] = '~3.0.2';
       }
 
       this.fs.writeJSON('bower.json', bowerJson);
@@ -261,16 +319,51 @@ module.exports = generators.Base.extend({
         this.templatePath(css),
         this.destinationPath('app/styles/' + css),
         {
+          shortname: this.shortname,
+          fullname: this.fullname,
+          author: this.author,
+          includeUncss: this.includeUncss,
+          includePug: this.includePug,
           includeBootstrap: this.includeBootstrap,
           legacyBootstrap: this.legacyBootstrap
         }
       );
     },
 
+    customStyles: function () {
+      if (this.includeSass) {
+        var sassModules = ['fonts', 'mixins', 'styles', 'variables'];
+
+        for (var i = 0; i < sassModules.length; i++) {
+          this.fs.copyTpl(
+            this.templatePath('styles/' + sassModules[i] + '.scss'),
+            this.destinationPath('app/styles/' + sassModules[i] + '.scss'),
+            {
+              shortname: this.shortname,
+              fullname: this.fullname,
+              author: this.author,
+              includePug: this.includePug,
+              includeBootstrap: this.includeBootstrap,
+              legacyBootstrap: this.legacyBootstrap
+            }
+          );
+        }
+      }
+    },
+
     scripts: function () {
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('main.js'),
-        this.destinationPath('app/scripts/main.js')
+        this.destinationPath('app/scripts/main.js'),
+        {
+          shortname: this.shortname,
+          fullname: this.fullname,
+          author: this.author,
+          includeJQuery: this.includeJQuery,
+          includeBootstrap: this.includeBootstrap,
+          includeFastclick: this.includeFastclick,
+          includeViewportFix: this.includeViewportFix,
+        }
       );
     },
 
@@ -321,20 +414,69 @@ module.exports = generators.Base.extend({
 
       }
 
+      if (this.includePug) {
+        var html = '.pug';
+      } else {
+        var html = '.html';
+      }
+
       this.fs.copyTpl(
-        this.templatePath('index.html'),
-        this.destinationPath('app/index.html'),
+        this.templatePath('index' + html),
+        this.destinationPath('app/index' + html),
         {
-          appname: this.appname,
+          appname: this.shortname,
+          fullname: this.fullname,
+          author: this.author,
           includeSass: this.includeSass,
           includeBootstrap: this.includeBootstrap,
           legacyBootstrap: this.legacyBootstrap,
+          includePug: this.includePug,
+          includeFastclick: this.includeFastclick,
+          includeViewportFix: this.includeViewportFix,
+          includeUncss: this.includeUncss,
           includeModernizr: this.includeModernizr,
           includeJQuery: this.includeJQuery,
           bsPath: bsPath,
           bsPlugins: bsPlugins
         }
       );
+
+      if (this.includePug) {
+        var pugModules = [
+          '_includes/config',
+          '_includes/head',
+          '_includes/header',
+          '_includes/footer',
+          '_includes/mixins',
+          '_includes/foot-scripts',
+          '_layouts/default',
+          '_mixins/example',
+          '_modules/example',
+        ];
+
+        for (var i = 0; i < pugModules.length; i++) {
+          this.fs.copyTpl(
+            this.templatePath(pugModules[i] + '.pug'),
+            this.destinationPath('app/' + pugModules[i] + '.pug'),
+            {
+              appname: this.shortname,
+              fullname: this.fullname,
+              author: this.author,
+              includeSass: this.includeSass,
+              includeBootstrap: this.includeBootstrap,
+              legacyBootstrap: this.legacyBootstrap,
+              includePug: this.includePug,
+              includeFastclick: this.includeFastclick,
+              includeViewportFix: this.includeViewportFix,
+              includeUncss: this.includeUncss,
+              includeModernizr: this.includeModernizr,
+              includeJQuery: this.includeJQuery,
+              bsPath: bsPath,
+              bsPlugins: bsPlugins
+            }
+          );
+        }
+      }
     },
 
     misc: function () {
@@ -354,7 +496,7 @@ module.exports = generators.Base.extend({
     var bowerJson = this.fs.readJSON(this.destinationPath('bower.json'));
     var howToInstall =
       '\nAfter running ' +
-      chalk.yellow.bold('npm install & bower install') +
+      chalk.yellow.bold('yarn install & bower install') +
       ', inject your' +
       '\nfront end dependencies by running ' +
       chalk.yellow.bold('gulp wiredep') +
@@ -366,12 +508,19 @@ module.exports = generators.Base.extend({
     }
 
     // wire Bower packages to .html
+
+    if (this.includePug) {
+      var html = '.pug';
+    } else {
+      var html = '.html';
+    }
+
     wiredep({
       bowerJson: bowerJson,
       directory: 'bower_components',
       exclude: ['bootstrap-sass', 'bootstrap.js'],
       ignorePath: /^(\.\.\/)*\.\./,
-      src: 'app/index.html'
+      src: 'app/index' + html
     });
 
     if (this.includeSass) {

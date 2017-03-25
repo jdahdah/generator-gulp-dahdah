@@ -1,0 +1,10 @@
+<% if (includeBootstrap) { %>.container
+  .header
+    ul.nav.nav-pills.<% if (legacyBootstrap) { %>pull<% } else { %>float<% } %>-right
+      li.<% if (legacyBootstrap) { %>active<% } else { %>nav-item<% } %>:  a<% if (!legacyBootstrap) { %>.nav-link.active<% } %>(href='#') Home
+      li:         a<% if (!legacyBootstrap) { %>.nav-link<% } %>(href='#') About
+      li:         a<% if (!legacyBootstrap) { %>.nav-link<% } %>(href='#') Contact
+
+    h3.text-muted <%= fullname %>
+<% } else { %>//- Header
+<% } %>

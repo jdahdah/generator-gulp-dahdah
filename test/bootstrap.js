@@ -60,8 +60,8 @@ describe('Bootstrap feature', () => {
     });
 
     it('should apply rem units in scss', () => {
-      assert.fileContent('app/styles/main.scss', '1.5rem');
-      assert.fileContent('app/styles/main.scss', '(min-width: 48em)');
+      assert.fileContent('app/styles/styles.scss', '1.5rem');
+      assert.fileContent('app/styles/styles.scss', '(min-width: 48em)');
     });
   });
 
@@ -119,7 +119,7 @@ describe('Bootstrap feature', () => {
     });
 
     it('should apply px units in scss', () => {
-      assert.fileContent('app/styles/main.scss', '(min-width: 768px)');
+      assert.fileContent('app/styles/styles.scss', '(min-width: 768px)');
     });
 
     it('should correctly override bootstrap\'s bower.json', () => {

@@ -10,9 +10,11 @@ const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
 var dev = true;
+var autostart = false; // launch browser automatically?
+var syncBrowsers = false; // enable synchronized scroll, clicks and form inputs across devices?
 
 gulp.task('styles', () => {<% if (includeSass) { %>
-  return gulp.src('app/styles/*.scss')
+  return gulp.src('app/styles/main.scss')
     .pipe($.plumber())
     .pipe($.if(dev, $.sourcemaps.init()))
     .pipe($.sass.sync({
@@ -22,7 +24,7 @@ gulp.task('styles', () => {<% if (includeSass) { %>
     }).on('error', $.sass.logError))<% } else { %>
   return gulp.src('app/styles/*.css')
     .pipe($.if(dev, $.sourcemaps.init()))<% } %>
-    .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
+    .pipe($.autoprefixer({browsers: ['> 1%', 'last 3 versions', 'Firefox ESR', 'iOS 7','IE 9']}))
     .pipe($.if(dev, $.sourcemaps.write()))
     .pipe(gulp.dest('.tmp/styles'))
     .pipe(reload({stream: true}));
@@ -57,12 +59,28 @@ gulp.task('lint:test', () => {
     .pipe(gulp.dest('test/spec'));
 });
 
-<% if (includeBabel) { -%>
-gulp.task('html', ['styles', 'scripts'], () => {
-<% } else { -%>
-gulp.task('html', ['styles'], () => {
+<% if (includePug) { -%>
+gulp.task('views', () => {
+  return gulp.src('app/*.pug')
+    .pipe($.plumber())
+    .pipe($.pug({pretty: true, basedir: 'app/'}))
+    .pipe(gulp.dest('.tmp'))
+    .pipe(reload({stream: true}));
+});
+
+// ensure 'views' has completed before reload
+gulp.task('views-watch', ['views'], (done) => {
+  browserSync.reload();
+  done();
+});
 <% } -%>
-  return gulp.src('app/*.html')
+
+<% if (includeBabel) { -%>
+gulp.task('html', [<% if (includePug) { %>'views', <% } %>'styles', 'scripts'], () => {
+<% } else { -%>
+gulp.task('html', [<% if (includePug) { %>'views', <% } %>'styles'], () => {
+<% } -%>
+  return gulp.src(['app/*.html'<% if (includePug) { %>, '.tmp/*.html'<% } %>])
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
     .pipe($.if(/\.css$/, $.cssnano({safe: true, autoprefixer: false})))
@@ -94,18 +112,62 @@ gulp.task('fonts', () => {
 gulp.task('extras', () => {
   return gulp.src([
     'app/*',
-    '!app/*.html'
+    '!app/*.html'<% if (includePug) { %>,
+    '!app/*.pug'<% } %>
   ], {
     dot: true
   }).pipe(gulp.dest('dist'));
 });
-
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+<% if (includeUncss) { %>
+gulp.task('uncss', ['html'], () => {
+  // selectors that UnCSS should never strip:
+  var preserveCSS = [
+    /\.active/,         // bootstrap
+    /\.alert/,          // bootstrap
+    /\.btn/,            // bootstrap
+    /\.carousel/,       // bootstrap
+    /\.collapse/,       // bootstrap
+    /\.collapsing/,     // bootstrap
+    /\.fade/,           // bootstrap
+    /\.form/,           // bootstrap
+    /\.input/,          // bootstrap
+    /\.nav/,            // bootstrap
+    /\.open/,           // bootstrap
+    /\.visible/,        // bootstrap
+    /\.hidden/,         // bootstrap
+    /\.disabled/,       // bootstrap
+    /\.col/,            // bootstrap
+    /\.text-/,          // bootstrap
+    /\:after/,          // pseudoelement
+    /\:before/,         // pseudoelement
+    /\:active/,         // state
+    /\:focus/,          // state
+    /\:hover/,          // state
+    /\:visited/,        // state
+    /\.no-touch/,       // modernizr
+    /\.touch/,          // modernizr
+    /\.video-js/,       // video.js
+    /\.video/,          // video.js
+    /\.vjs/,            // video.js
+    /\.slick/,          // slick-carousel.js
+  ];
+  return gulp.src('dist/styles/main.css')
+  .pipe($.uncss({
+    html: ['dist/*.html'],
+    ignore: preserveCSS
+  }))
+  .pipe($.cssnano({safe: true, autoprefixer: false}))
+  .pipe(gulp.dest('dist/styles'));
+});
+<% } %>
+gulp.task('clean', del.bind(null, ['.tmp', 'dist/**/*']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['styles'<% if (includeBabel) { %>, 'scripts'<% } %>, 'fonts'], () => {
+  runSequence(['clean', 'wiredep'], [<% if (includePug) { %>'views', <% } %>'styles'<% if (includeBabel) { %>, 'scripts'<% } %>, 'fonts'], () => {
     browserSync.init({
+      ghostMode: syncBrowsers,
       notify: false,
+      open: autostart,
       port: 9000,
       server: {
         baseDir: ['.tmp', 'app'],
@@ -124,6 +186,9 @@ gulp.task('serve', () => {
       '.tmp/fonts/**/*'
     ]).on('change', reload);
 
+<% if (includePug) { -%>
+    gulp.watch('app/**/*.pug', ['views-watch']);
+<% } -%>
     gulp.watch('app/styles/**/*.<%= includeSass ? 'scss' : 'css' %>', ['styles']);
 <% if (includeBabel) { -%>
     gulp.watch('app/scripts/**/*.js', ['scripts']);
@@ -135,7 +200,9 @@ gulp.task('serve', () => {
 
 gulp.task('serve:dist', ['default'], () => {
   browserSync.init({
+    ghostMode: syncBrowsers,
     notify: false,
+    open: autostart,
     port: 9000,
     server: {
       baseDir: ['dist']
@@ -181,16 +248,17 @@ gulp.task('wiredep', () => {<% if (includeSass) { %>
     }))
     .pipe(gulp.dest('app/styles'));
 <% } %>
-  gulp.src('app/*.html')
+  gulp.src(<% if (includePug) { %>'app/**/*.pug'<% } else { %>'app/*.html'<% } %>)
     .pipe(wiredep({<% if (includeBootstrap) { if (includeSass) { %>
-      exclude: ['bootstrap<% if (legacyBootstrap) { %>-sass<% } %>'],<% } else { %>
-      exclude: ['bootstrap.js'],<% }} %>
+      exclude: ['bootstrap<% if (legacyBootstrap) { %>-sass<% } %>','modernizr'],<% } else { %>
+      exclude: ['bootstrap.js', 'modernizr'],<% }} else { %>
+      exclude: [<% if (includeSass) { %>'normalize.css', <% } %>'modernizr'],<%} %>
       ignorePath: /^(\.\.\/)*\.\./
     }))
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'<% if (includeUncss) { %>, 'uncss'<% } %>], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

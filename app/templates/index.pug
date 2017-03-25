@@ -1,0 +1,67 @@
+extends /_layouts/default
+
+//- Per-page settings; set global defaults in _includes/config
+append config
+  - var pageTitle       = '<%= fullname %> | Home'
+  - var bodyClass       = ''
+  - var metaDescription = ''
+
+//- Main content
+block content
+<% if (includeBootstrap) { %>
+  .container
+
+    .jumbotron
+      h1<% if (!legacyBootstrap) { %>.display-3<% } %> 'Allo, 'Allo!
+      p.lead Always a pleasure scaffolding your apps.
+      p: a.btn.btn-lg.btn-success(href='#') Splendid!
+
+    .row.marketing
+      .col-lg-6
+
+        h4 HTML5 Boilerplate
+        p  HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
+
+        h4 Modular Templates
+        p  The base template has been split up into separate files with the help of Jade to keep your HTML as DRY as possible.<% if (includeSass) { %>
+
+        h4 Sass
+        p  Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.<% } %>
+
+        h4 Pug
+        p  Pug is a high performance template engine heavily influenced by Haml and implemented with JavaScript for Node.js and browsers.
+
+        h4 Bootstrap
+        p  Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.<% if (includeFastclick) { %>
+
+        h4 Fastclick
+        p  FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a click event on mobile browsers.<% } if (includeViewportFix) { %>
+
+        h4 viewportUnitsBuggyfill
+        p  Making viewport units (vh|vw|vmin|vmax) work properly in Mobile Safari.<% } if (includeModernizr) { %>
+
+        h4 Modernizr
+        p  Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.<% } %>
+
+      .col-lg-6
+
+        // Modules help you keep your template directory clean. A recommended approach would be to split each logical,
+        // non-repeating unit of your design into its own .html module and include it from this file.
+        include /_modules/example<% } else { %>
+  .hero-unit
+    h1 'Allo, 'Allo!
+    p You now have
+
+    ul
+      li HTML5 Boilerplate<% if (includeSass) { %>
+      li Sass<% } %>
+      li Pug<% if (includeFastclick) { %>
+      li Fastclick<% } if (includeViewportFix) { %>
+      li viewportUnitsBuggyfill<% } if (includeModernizr) { %>
+      li Modernizr<% } %>
+      li Normalize.css
+
+  // Modules help you keep your template directory clean. A recommended approach would be to split each logical,
+  // non-repeating unit of your design into its own .html module and include it from this file.
+  include /_modules/example
+<% } %>
